@@ -27,7 +27,7 @@ function fetchQuotes() {
 function fetchUser() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
   fetch(`${PATH}${userId}`)
-    .then(resp => resp.json()) // converts reponse to json
+    .then(resp => resp.json())
     .then(json => console.log(json));
 }
 

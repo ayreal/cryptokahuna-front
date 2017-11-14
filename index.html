@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CryptoKahuna</title>
+  <title>Crypto Kahuna</title>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
   <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/sandstone/bulmaswatch.min.css">
@@ -17,7 +18,7 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title is-2">
-            CryptoKahuna
+            Crypto Kahuna
           </h1>
         <h2 class="subtitle">
             Your best chance to become a digital nomad
@@ -82,19 +83,78 @@
       <!-- End Moneymeter -->
 
 
-      <!-- Begin Currency Listings -->
+      <!-- Begin Ticker -->
 
 
       <section class="info-tiles">
         <div class="tile is-ancestor has-text-centered" id="ticker">
 
+          <div class="tile is-parent">
+            <article class="tile is-child is-light box" id="BTC">
+              <p class="title">Bitcoin</p>
+              <p class="subtitle">BTC</p>
+              <h3>Current Share Price:</h3>
+              <p id="value"></p>
+              <a class="button is-medium is-primary buy">BUY</a>
+            </article>
+          </div>
+
+          <div class="tile is-parent">
+            <article class="tile is-child is-light box" id="DASH">
+              <p class="title">Dash</p>
+              <p class="subtitle">DASH</p>
+              <h3>Current Share Price:</h3>
+              <p id="value"></p>
+              <a class="button is-medium is-primary buy">BUY</a>
+            </article>
+          </div>
+
+          <div class="tile is-parent">
+            <article class="tile is-child is-light box" id="ETH">
+              <p class="title">Ethereum</p>
+              <p class="subtitle">ETH</p>
+              <h3>Current Share Price:</h3>
+              <p id="value"></p>
+              <a class="button is-medium is-primary buy">BUY</a>
+            </article>
+          </div>
+
+          <div class="tile is-parent">
+            <article class="tile is-child is-light box" id="LTC">
+              <p class="title">Litecoin</p>
+              <p class="subtitle">LTC</p>
+              <h3>Current Share Price:</h3>
+              <p id="value"></p>
+              <a class="button is-medium is-primary buy">BUY</a>
+            </article>
+          </div>
+
+          <div class="tile is-parent">
+            <article class="tile is-child is-light box" id="ZMR">
+              <p class="title">Monero</p>
+              <p class="subtitle">XMR</p>
+              <h3>Current Share Price:</h3>
+              <p id="value"></p>
+              <a class="button is-medium is-primary buy">BUY</a>
+            </article>
+          </div>
+
+          <div class="tile is-parent">
+            <article class="tile is-child is-light box" id="ZEC">
+              <p class="title">Zcash</p>
+              <p class="subtitle">ZEC</p>
+              <h3>Current Share Price:</h3>
+              <p id="value"></p>
+              <a class="button is-medium is-primary buy">BUY</a>
+            </article>
+          </div>
 
 
         </div>
       </section>
 
 
-
+      <!-- End Ticker -->
       <div class="columns">
         <!-- Begin Portfolio -->
 
@@ -139,7 +199,7 @@
         <!-- Begin Buy/Sell Widget -->
 
         <div class="tile is-parent is-4 has-text-centered" id="buy-sell">
-        
+
         </div>
 
 
@@ -148,7 +208,7 @@
 
     </div>
   </section>
-
+  <script src="src/main.js"></script>
 </body>
 
 </html>

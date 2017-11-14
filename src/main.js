@@ -93,6 +93,9 @@ function attachListeners() {
 function openBuy(currency, value) {
   // add an event listener to the div
   // render Buy
+  console.log("openBuy")
+  
+
   document.getElementById("buy-sell").innerHTML = `
   <div class="level-item has-text-centered">
    <article class="tile is-child notification is-info">
@@ -109,11 +112,15 @@ function openBuy(currency, value) {
   </div>
   `;
 
+  let confirmBuyButton = document.getElementById("confirm-buy");
+  confirmBuyButton.addEventListener("click", () => {
+    console.log("BUY");
+  });
+
   //add an event listener to the input. OnChange it runs calcTotalBuys
   document.getElementById("buy-sell").addEventListener("input", e => {
     let amountShares = e.target.value;
     let total = calcTotalBuy(value, amountShares);
-    let confirmBuyButton = document.getElementById("confirm-buy");
 
     if (total) {
       document.getElementById("total-buy").innerHTML = `
@@ -122,9 +129,7 @@ function openBuy(currency, value) {
       confirmBuyButton.innerHTML = `
         CONFIRM PURCHASE
       `;
-      confirmBuyButton.addEventListener("click", () => {
-        console.log("BUY");
-      });
+
       // submit a post request to our API here
       // fetch down User data again
       // optimistically render User value changes

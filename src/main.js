@@ -9,7 +9,7 @@ const zcash = document.getElementById("ZEC");
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchQuotes();
-  window.setInterval(refreshQuotes, 60000);
+  window.setInterval(refreshQuotes, 10000);
   attachListeners();
 });
 

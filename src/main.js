@@ -21,6 +21,14 @@ function fetchQuotes() {
     .then(json => setPrices(json));
 }
 
+function fetchUser() {
+  // get the user data from herokuapp
+  // make a new User object
+  fetch("https://crypto-kahuna-api.herokuapp.com/users")
+    .then(res => res.json())
+    .then(console.log(json));
+}
+
 function refreshQuotes() {
   // call fetchQuotes every 10 sec
   // call function that updates the time
@@ -68,5 +76,25 @@ function setPrices(data) {
 function attachListeners() {
   // attach a click event to the buy button for each child of ticker
   // .querySelector(".buy")
+
+  let buttons = ticker.getElementsByClassName("button");
+  [...buttons].forEach(button => {
+    button.addEventListener("click", e => {
+      let currency = e.target.parentElement.id;
+      let value = e.target.parentElement.querySelector("#value").innerText;
+      openBuy(currency, value);
+    });
+  });
+}
+
+function openBuy(currency, value) {
+  // add an event listener to the div
+  // render Buy
+  let cash = 10000; // dummy variable
+  document.getElementById("buy-sell").innerHTML = `
+  <article class="tile is-child notification is-info">
+    <em>buy/sell here</em>
+  </article>
+  `;
   debugger;
 }

@@ -1,4 +1,4 @@
-// let data = {};
+const userId = 1;
 const ticker = document.getElementById("ticker");
 const bitcoin = document.getElementById("BTC");
 const dash = document.getElementById("DASH");
@@ -6,10 +6,13 @@ const ethereum = document.getElementById("ETH");
 const litecoin = document.getElementById("LTC");
 const monero = document.getElementById("ZMR");
 const zcash = document.getElementById("ZEC");
+const portfolioValue = document.getElementById("portfolio-value");
+const liquidAssets = document.getElementById("liquid-assets");
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchQuotes();
-  window.setInterval(refreshQuotes, 10000);
+  fetchUser();
+  window.setInterval(refreshQuotes, 60000); // polling timer default is 10000
   attachListeners();
 });
 
@@ -22,11 +25,10 @@ function fetchQuotes() {
 }
 
 function fetchUser() {
-  // get the user data from herokuapp
-  // make a new User object
-  fetch("https://crypto-kahuna-api.herokuapp.com/users")
-    .then(res => res.json())
-    .then(console.log(json));
+  const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
+  fetch(`${PATH}${userId}`)
+    .then(resp => resp.json())
+    .then(json => console.log(json));
 }
 
 function refreshQuotes() {
@@ -110,22 +112,30 @@ function openBuy(currency, value) {
   document.getElementById("buy-sell").addEventListener("input", e => {
     let amountShares = e.target.value;
     let total = calcTotalBuy(value, amountShares);
+    let confirmBuyButton = document.getElementById("confirm-buy");
 
     if (total) {
       document.getElementById("total-buy").innerHTML = `
         Total: <strong>$${total}</strong>
       `;
-      document.getElementById("confirm-buy").innerHTML = `
+      confirmBuyButton.innerHTML = `
         CONFIRM PURCHASE
       `;
+      confirmBuyButton.addEventListener("click", () => {
+        console.log("BUY");
+      });
+      // submit a post request to our API here
+      // fetch down User data again
+      // optimistically render User value changes
     } else {
-      document.getElementById("confirm-buy").innerHTML = `
+      document.getElementById("total-buy").innerHTML = `
+
+      `;
+      confirmBuyButton.innerHTML = `
         INVALID FUNDS
       `;
     }
   });
-
-  // append an alert if the purchase is invalid
 }
 
 function calcTotalBuy(value, amount) {
@@ -134,7 +144,7 @@ function calcTotalBuy(value, amount) {
   value = parseFloat(value);
   let total = parseFloat(amount * value).toFixed(2);
   let funds = parseFloat(cash - total).toFixed(2);
-  if (funds >= 0 && total > 0) {
+  if (funds > 0 && total > 0) {
     return total;
   } else {
     return false;

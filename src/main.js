@@ -1,6 +1,6 @@
-let data = {};
-let ticker = document.getElementById("ticker");
-let bitcoin = document.getElementById("bitcoin").querySelector("value");
+// let data = {};
+const ticker = document.getElementById("ticker");
+const bitcoin = document.getElementById("bitcoin").querySelector("#value");
 
 document.addEventListener("DOMContentLoaded", () => {
   // refreshQuotes();
@@ -14,7 +14,7 @@ function fetchQuotes() {
   const ROUTE = "/data/pricemulti?fsyms=BTC,ETH,DASH,ZEC,XMR,LTC&tsyms=USD";
   fetch(`${PATH}${ROUTE}`)
     .then(res => res.json())
-    .then(json => (data = json));
+    .then(json => setPrices(json));
   console.log("fetchQuotes is ending");
 }
 
@@ -24,7 +24,7 @@ function refreshQuotes() {
   console.log("refreshQuotes is starting");
 
   fetchQuotes();
-  console.log(data);
+  // console.log(data);
   let date = new Date().toLocaleString("en-US");
   document.getElementById("last-updated").innerHTML = `
     <strong>Last updated</strong> ${date}
@@ -32,8 +32,10 @@ function refreshQuotes() {
   console.log("refreshQuotes is ending");
 }
 
-// function setPrices() {
-//   bitcoin.innerHTML = `
-//     <strong>$${data.BTC.USD}</strong>
-//   `;
-// }
+function setPrices(data) {
+  console.log(data);
+  let value = parseFloat(data.BTC.USD).toFixed(2);
+  bitcoin.innerHTML = `
+    <strong>${value}</strong>
+  `;
+}

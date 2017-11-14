@@ -1,5 +1,5 @@
 const userId = 1;
-let user = {};
+let user;
 const ticker = document.getElementById("ticker");
 const bitcoin = document.getElementById("BTC");
 const dash = document.getElementById("DASH");
@@ -29,7 +29,11 @@ function fetchUser() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
   fetch(`${PATH}${userId}`)
     .then(resp => resp.json())
-    .then(json => (user = json));
+    .then(json => makeUser(json));
+}
+
+function makeUser(data) {
+  user = new User(data);
 }
 
 function refreshQuotes() {

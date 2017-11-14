@@ -34,6 +34,8 @@ function fetchUser() {
 
 function makeUser(data) {
   user = new User(data);
+  user.renderLiquidAssets();
+  user.renderportfolioValue();
 }
 
 function refreshQuotes() {

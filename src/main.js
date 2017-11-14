@@ -1,11 +1,11 @@
 // let data = {};
 const ticker = document.getElementById("ticker");
-const bitcoin = document.getElementById("bitcoin");
-const dash = document.getElementById("dash");
-const ethereum = document.getElementById("ethereum");
-const litecoin = document.getElementById("litecoin");
-const monero = document.getElementById("monero");
-const zcash = document.getElementById("zcash");
+const bitcoin = document.getElementById("BTC");
+const dash = document.getElementById("DASH");
+const ethereum = document.getElementById("ETH");
+const litecoin = document.getElementById("LTC");
+const monero = document.getElementById("ZMR");
+const zcash = document.getElementById("ZEC");
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchQuotes();
@@ -90,11 +90,55 @@ function attachListeners() {
 function openBuy(currency, value) {
   // add an event listener to the div
   // render Buy
-  let cash = 10000; // dummy variable
   document.getElementById("buy-sell").innerHTML = `
-  <article class="tile is-child notification is-info">
-    <em>buy/sell here</em>
-  </article>
+  <div class="level-item has-text-centered">
+   <article class="tile is-child notification is-info">
+     <h2 class="title">Buy Shares</h2>
+     <p>${currency} @ <strong>$${value}</strong></p>
+     <div class="field">
+     <div class="control">
+       <input class="input is-medium" id="buy-shares" type="number" placeholder="0">
+     </div>
+   </div>
+   <h3 class="title" id="total-buy">Total: <strong>$0</strong></h3>
+   <a class="button is-medium is-warning" id="confirm-buy">CONFIRM PURCHASE</a>
+   </article>
+  </div>
   `;
-  debugger;
+
+  //add an event listener to the input. OnChange it runs calcTotalBuys
+  document.getElementById("buy-sell").addEventListener("input", e => {
+    let amountShares = e.target.value;
+    let total = calcTotalBuy(value, amountShares);
+
+    if (total) {
+      document.getElementById("total-buy").innerHTML = `
+        Total: <strong>$${total}</strong>
+      `;
+      document.getElementById("confirm-buy").innerHTML = `
+        CONFIRM PURCHASE
+      `;
+    } else {
+      document.getElementById("confirm-buy").innerHTML = `
+        INVALID FUNDS
+      `;
+    }
+  });
+
+  // append an alert if the purchase is invalid
+}
+
+function calcTotalBuy(value, amount) {
+  let cash = 3000; // dummy variable
+  amount = parseFloat(amount);
+  value = parseFloat(value);
+  let total = parseFloat(amount * value).toFixed(2);
+  let funds = parseFloat(cash - total).toFixed(2);
+  if (funds >= 0 && total > 0) {
+    return total;
+  } else {
+    return false;
+  }
+
+  // debugger;
 }

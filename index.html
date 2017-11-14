@@ -28,7 +28,16 @@
 
   <!-- End heading -->
 
-
+  <!-- Begin Modal for Login -->
+  <!-- To activate the modal, just add the is-active modifier on the .modal container -->
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <!-- content here -->
+    </div>
+    <button class="modal-close is-large"></button>
+  </div>
+  <!-- End Modal for Login -->
 
   <section class="section">
     <div class="container">
@@ -52,28 +61,28 @@
           <p class="level-item"><a>Link</a></p>
           <p class="level-item"><a>Link</a></p>
           <p class="level-item"><a>Link</a></p>
-          <p class="level-item"><a class="button is-success">New</a></p>
+          <p class="level-item"><a class="button is-warning">Logout</a></p>
         </div>
       </nav>
       <!-- End infobar -->
 
-<!-- Begin Moneymeter -->
+      <!-- Begin Moneymeter -->
 
-<div class="tile is-ancestor">
-  <div class="tile is-parent is-6">
-    <article class="tile is-child notification is-info">
-      <h2 class="subtitle">Current Portfolio Value</h2>
-      <h1 class="title is-1">$6,349.32</h1>
-  </article>
-  </div>
-  <div class="tile is-parent is-6">
-    <article class="tile is-child notification is-info">
-      <h2 class="subtitle">Current Liquid Assets</h2>
-      <h1 class="title is-1">$13,842.94</h1>
-  </article>
-  </div>
-</div>
-<!-- End Moneymeter -->
+      <div class="tile is-ancestor">
+        <div class="tile is-parent is-6">
+          <article class="tile is-child notification is-info">
+            <h2 class="subtitle">Current Portfolio Value</h2>
+            <h1 class="title is-1">$6,349.32</h1>
+          </article>
+        </div>
+        <div class="tile is-parent is-6">
+          <article class="tile is-child notification is-info">
+            <h2 class="subtitle">Current Liquid Assets</h2>
+            <h1 class="title is-1">$13,842.94</h1>
+          </article>
+        </div>
+      </div>
+      <!-- End Moneymeter -->
 
 
       <!-- Begin Currency Listings -->
@@ -86,7 +95,8 @@
             <article class="tile is-child is-light box">
               <p class="title">Bitcoin</p>
               <p class="subtitle">BTC</p>
-              <p>Current Share Price: <strong>$6003.24</strong></p>
+              <h3>Current Share Price:</h3>
+              <p><strong>$6003.24</strong></p>
               <a class="button is-medium is-primary buy">BUY</a>
 
             </article>
@@ -175,14 +185,14 @@
                       <td>$1,103.02</td>
                       <td><a class="button is-small is-primary" href="#">SELL</a></td>
                     </tr>
-                   </tbody>
-                 </table>
-               </div>
-             </div>
-             <footer class="card-footer">
-             </footer>
-           </div>
-         </div>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <footer class="card-footer">
+            </footer>
+          </div>
+        </div>
         <!-- End Portfolio  -->
 
         <!-- Begin Buy/Sell Widget -->
@@ -190,7 +200,7 @@
         <div class="tile is-parent is-4 has-text-centered">
           <article class="tile is-child notification is-info">
             <em>buy/sell here</em>
-        </article>
+          </article>
         </div>
 
 

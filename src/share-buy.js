@@ -95,7 +95,7 @@ function buyShares(shares, currency) {
       return holding.currency === currency;
     }).id
     buyHoldingsFetch(holdingId, shares, currency, "buy");
-    // renderUpdateHolding(shares, currency)
+    // renderUpdgitaateHolding(shares, currency)
   } else {
     console.log("don't have it")
     buyHoldingsFetch(0, shares, currency, "buy")

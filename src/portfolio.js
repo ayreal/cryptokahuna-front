@@ -19,7 +19,7 @@ class Portfolio {
   renderPortfolioValue(value) {
     portfolioValue.innerHTML = `
     <h2 class="subtitle">Current Portfolio Value</h2>
-    <h1 class="title is-1">$0</h1>
+    <h1 class="title is-1">$${value}</h1>
     `;
   }
 
@@ -32,6 +32,7 @@ class Portfolio {
     // loop through the holdings array
     // generate a string of HTML for each with the values
     let body = ""
+    let total = 0;
     this.holdings.forEach(function(holding) {
         const holdingValue = this.calcHoldingValue(holding);
         let line = `
@@ -51,8 +52,10 @@ class Portfolio {
       </tr>
       `;
         body += line;
+        total += parseInt(holdingValue);
       }.bind(this));
-    return body
+      this.renderPortfolioValue(total);
+      return body
   }
 
   calcHoldingValue(holding) {
@@ -60,7 +63,5 @@ class Portfolio {
     const currencyValue = document.getElementById(holding.currency).querySelector("#value").innerText;
     return (parseFloat(currencyValue) * parseFloat(holding.shares)).toFixed(2);
   }
-
-
 
 }

@@ -11,7 +11,7 @@ class Portfolio {
   renderLiquidAssets() {
     liquidAssets.innerHTML = `
     <h2 class="subtitle">Current Liquid Assets</h2>
-    <h1 class="title is-1">$${this.cash}</h1>
+    <h1 class="title is-1">$${portfolio.cash}</h1>
     `;
   }
 

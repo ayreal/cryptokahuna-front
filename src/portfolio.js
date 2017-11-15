@@ -19,7 +19,7 @@ class Portfolio {
   renderPortfolioValue(value) {
     portfolioValue.innerHTML = `
     <h2 class="subtitle">Current Portfolio Value</h2>
-    <h1 class="title is-1">$${value}</h1>
+    <h1 class="title is-1">$${value.toFixed(2)}</h1>
     `;
   }
 

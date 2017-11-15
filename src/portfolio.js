@@ -23,17 +23,18 @@ class Portfolio {
     `;
   }
 
-  renderPortfolioDiv(){
+  renderPortfolioDiv() {
     // call a fn that generates the innerHTML for the portfolioDIV
-    document.getElementById("portfolio").innerHTML = this.renderHoldings()
-    }
-  
+    document.getElementById("portfolio").innerHTML = this.renderHoldings();
+  }
+
   renderHoldings() {
     // loop through the holdings array
     // generate a string of HTML for each with the values
-    let body = ""
+    let body = "";
     let total = 0;
-    this.holdings.forEach(function(holding) {
+    this.holdings.forEach(
+      function(holding) {
         const holdingValue = this.calcHoldingValue(holding);
         let line = `
       <tr>
@@ -51,16 +52,18 @@ class Portfolio {
       </tr>
       `;
         body += line;
-        total += parseInt(holdingValue);
-      }.bind(this));
-      this.renderPortfolioValue(total);
-      return body
+        total += parseFloat(holdingValue);
+      }.bind(this)
+    );
+    this.renderPortfolioValue(total);
+    return body;
   }
 
   calcHoldingValue(holding) {
     //holding is a holding object
-    const currencyValue = document.getElementById(holding.currency).querySelector("#value").innerText;
+    const currencyValue = document
+      .getElementById(holding.currency)
+      .querySelector("#value").innerText;
     return (parseFloat(currencyValue) * parseFloat(holding.shares)).toFixed(2);
   }
-
 }

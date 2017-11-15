@@ -43,9 +43,9 @@ class Portfolio {
         </td>
         <td>${holding.currency}</td>
         <td>${holding.shares}</td>
-        <td class="holding-total">$${holdingValue}</td>
+        <td>$${holdingValue}</td>
         <td>
-          <a class="button is-small is-primary" href="#">
+          <a class="button is-small is-primary" data-currency="${holding.currency}" href="#">
             SELL
           </a>
         </td>
@@ -65,5 +65,12 @@ class Portfolio {
       .getElementById(holding.currency)
       .querySelector("#value").innerText;
     return (parseFloat(currencyValue) * parseFloat(holding.shares)).toFixed(2);
+  }
+
+  getHoldingsForCurrency(currency) {
+    let holdingObj = this.holdings.find(
+      holding => holding.currency === currency
+    );
+    return parseFloat(holdingObj.shares);
   }
 }

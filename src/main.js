@@ -11,12 +11,15 @@ const portfolioValue = document.getElementById("portfolio-value");
 const liquidAssets = document.getElementById("liquid-assets");
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetchQuotes();
+  fetchQuotes(); // fetches quotes right away before first interval is hit
+  //// should we call refreshQuotes() here instead so the last-updated text gets input right away?
   fetchUser();
   window.setInterval(refreshQuotes, 60000); // polling timer default is 10000
+  //// set back to 10000 for more frequent updates
   attachListeners();
 });
 
+// fetches latest quotes from cryptocompare api
 function fetchQuotes() {
   const PATH = "https://min-api.cryptocompare.com";
   const ROUTE = "/data/pricemulti?fsyms=BTC,ETH,DASH,ZEC,XMR,LTC&tsyms=USD";
@@ -25,6 +28,8 @@ function fetchQuotes() {
     .then(json => setPrices(json));
 }
 
+// fetches user data from backend api
+//// update this so user can be changed
 function fetchUser() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
   fetch(`${PATH}${userId}`)
@@ -32,6 +37,7 @@ function fetchUser() {
     .then(json => (user = json));
 }
 
+// calls fetchQuotes and updates "Last updated" with the current datetime
 function refreshQuotes() {
   // call fetchQuotes every 10 sec
   // call function that updates the time
@@ -42,6 +48,7 @@ function refreshQuotes() {
   `;
 }
 
+// updates ticker prices with latest data from fetchQuotes
 function setPrices(data) {
   console.log(data);
   let valueBTC = parseFloat(data.BTC.USD).toFixed(2);
@@ -51,6 +58,7 @@ function setPrices(data) {
   let valueXMR = parseFloat(data.XMR.USD).toFixed(2);
   let valueZEC = parseFloat(data.ZEC.USD).toFixed(2);
 
+  //// can we refactor these into one function?
   bitcoin.querySelector("#value").innerHTML = `
     <strong>${valueBTC}</strong>
   `;
@@ -76,9 +84,10 @@ function setPrices(data) {
   `;
 }
 
+// attaches a click event listener to the buy button for each child of ticker
+// click event triggers openBuy for that currency
 function attachListeners() {
-  // attach a click event to the buy button for each child of ticker
-  // .querySelector(".buy")
+  // .querySelector(".buy") //// is this line needed?
 
   let buttons = ticker.getElementsByClassName("button");
   [...buttons].forEach(button => {
@@ -90,12 +99,12 @@ function attachListeners() {
   });
 }
 
+// renders the buy form and listens for inputs and clicks
+//// refactor this!!!!!!
 function openBuy(currency, value) {
-  // add an event listener to the div
-  // render Buy
-  console.log("openBuy")
+  // add an event listener to the div //// is this a function description or pending change?
   
-
+  // renders the buy form
   document.getElementById("buy-sell").innerHTML = `
   <div class="level-item has-text-centered">
    <article class="tile is-child notification is-info">
@@ -112,16 +121,13 @@ function openBuy(currency, value) {
   </div>
   `;
 
-  let confirmBuyButton = document.getElementById("confirm-buy");
-  confirmBuyButton.addEventListener("click", () => {
-    console.log("BUY");
-  });
-
-  //add an event listener to the input. OnChange it runs calcTotalBuys
+  // adds an event listener to the shares input. OnChange it runs calcTotalBuys
   document.getElementById("buy-sell").addEventListener("input", e => {
-    let amountShares = e.target.value;
-    let total = calcTotalBuy(value, amountShares);
+    let amountShares = e.target.value; // number of shares entered
+    let total = calcTotalBuy(value, amountShares); // total cost (if affordable)
+    let confirmBuyButton = document.getElementById("confirm-buy");
 
+    // total is true if user can afford the transaction
     if (total) {
       document.getElementById("total-buy").innerHTML = `
         Total: <strong>$${total}</strong>
@@ -129,10 +135,12 @@ function openBuy(currency, value) {
       confirmBuyButton.innerHTML = `
         CONFIRM PURCHASE
       `;
-
-      // submit a post request to our API here
-      // fetch down User data again
-      // optimistically render User value changes
+      confirmBuyButton.addEventListener("click", () => {
+        console.log("BUY");
+      });
+      //// submit a post request to our API here
+      //// fetch down User data again
+      //// optimistically render User value changes
     } else {
       document.getElementById("total-buy").innerHTML = `
 
@@ -144,17 +152,17 @@ function openBuy(currency, value) {
   });
 }
 
+// calculates purchase total and determines if user can afford the transaction
 function calcTotalBuy(value, amount) {
-  let cash = 3000; // dummy variable
-  amount = parseFloat(amount);
-  value = parseFloat(value);
-  let total = parseFloat(amount * value).toFixed(2);
-  let funds = parseFloat(cash - total).toFixed(2);
+  let cash = 3000; // dummy variable //// change to reflect user's cash
+  value = parseFloat(value); // cost per share
+  amount = parseFloat(amount); // number of shares enetered
+  let total = parseFloat(amount * value).toFixed(2); // total cost (value * amount)
+  let funds = parseFloat(cash - total).toFixed(2); // remaining funds
+  // only returns total if user can afford the transaction
   if (funds > 0 && total > 0) {
     return total;
   } else {
     return false;
   }
-
-  // debugger;
 }

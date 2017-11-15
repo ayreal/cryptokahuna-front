@@ -11,11 +11,9 @@ const portfolioValue = document.getElementById("portfolio-value");
 const liquidAssets = document.getElementById("liquid-assets");
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetchQuotes(); // fetches quotes right away before first interval is hit
-  //// should we call refreshQuotes() here instead so the last-updated text gets input right away?
-  fetchUser();
-  window.setInterval(refreshQuotes, 60000); // polling timer default is 10000
-  //// set back to 10000 for more frequent updates
+  refreshQuotes(); // fetches quotes right away before first interval is hit
+  fetchPortfolio();
+  window.setInterval(refreshQuotes, 10000); // polling timer default is 10000
   attachListeners();
 });
 
@@ -56,7 +54,7 @@ function refreshQuotes() {
 
 // updates ticker prices with latest data from fetchQuotes
 function setPrices(data) {
-  console.log(data);
+  // console.log(data);
   let valueBTC = parseFloat(data.BTC.USD).toFixed(2);
   let valueDASH = parseFloat(data.DASH.USD).toFixed(2);
   let valueETH = parseFloat(data.ETH.USD).toFixed(2);
@@ -90,26 +88,21 @@ function setPrices(data) {
   `;
 }
 
-// attaches a click event listener to the buy button for each child of ticker
-// click event triggers openBuy for that currency
+// attaches a click event listener to the ticker div
+// click event triggers openBuy for each currency
 function attachListeners() {
-  // .querySelector(".buy") //// is this line needed?
-
-  let buttons = ticker.getElementsByClassName("button");
-  [...buttons].forEach(button => {
-    button.addEventListener("click", e => {
+  ticker.addEventListener("click", e => {
+    if (e.target.tagName === "A") {
       let currency = e.target.parentElement.id;
       let value = e.target.parentElement.querySelector("#value").innerText;
       openBuy(currency, value);
-    });
+    }
   });
 }
 
 // renders the buy form and listens for inputs and clicks
 //// refactor this!!!!!!
 function openBuy(currency, value) {
-  // add an event listener to the div //// is this a function description or pending change?
-  
   // renders the buy form
   document.getElementById("buy-sell").innerHTML = `
   <div class="level-item has-text-centered">
@@ -129,33 +122,37 @@ function openBuy(currency, value) {
 
   // adds an event listener to the shares input. OnChange it runs calcTotalBuys
   document.getElementById("buy-sell").addEventListener("input", e => {
+    console.log("buy-sell listener")
+    e.stopImmediatePropagation()
     let amountShares = e.target.value; // number of shares entered
     let total = calcTotalBuy(value, amountShares); // total cost (if affordable)
     let confirmBuyButton = document.getElementById("confirm-buy");
 
     // total is true if user can afford the transaction
-    if (total) {
-      document.getElementById("total-buy").innerHTML = `
+    total ? displayTotal(confirmBuyButton, total) : removeTotal(confirmBuyButton);
+  });
+}
+
+function displayTotal(confirmBuyButton, total) {
+  document.getElementById("total-buy").innerHTML = `
         Total: <strong>$${total}</strong>
       `;
-      confirmBuyButton.innerHTML = `
+  confirmBuyButton.innerHTML = `
         CONFIRM PURCHASE
       `;
-      confirmBuyButton.addEventListener("click", () => {
-        console.log("BUY");
-      });
-      //// submit a post request to our API here
-      //// fetch down User data again
-      //// optimistically render User value changes
-    } else {
-      document.getElementById("total-buy").innerHTML = `
-
-      `;
-      confirmBuyButton.innerHTML = `
-        INVALID FUNDS
-      `;
-    }
+  confirmBuyButton.addEventListener("click", (e) => {
+    e.stopImmediatePropagation();
+    console.log("BUY");
   });
+}
+
+function removeTotal(confirmBuyButton) {
+  document.getElementById("total-buy").innerHTML = `
+
+  `;
+  confirmBuyButton.innerHTML = `
+    INVALID FUNDS
+  `;
 }
 
 // calculates purchase total and determines if user can afford the transaction

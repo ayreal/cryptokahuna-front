@@ -11,7 +11,7 @@ const portfolioValue = document.getElementById("portfolio-value");
 const liquidAssets = document.getElementById("liquid-assets");
 
 document.addEventListener("DOMContentLoaded", () => {
-  refreshQuotes(); // fetches quotes right away before first interval is hit
+  refreshQuotes(); // refreshes quotes right away before first interval is hit
   fetchPortfolio();
   window.setInterval(pageRefresh, 10000); // polling timer default is 10000
   attachListeners();
@@ -34,7 +34,7 @@ function makePortfolio(data) {
 
 function pageRefresh() {
   refreshQuotes();
-   portfolio.renderPortfolioDiv();
+  portfolio.renderPortfolioDiv();
 }
 
 // calls fetchQuotes and updates "Last updated" with the current datetime

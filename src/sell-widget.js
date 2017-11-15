@@ -39,7 +39,7 @@ function renderSell(currency, value, shares) {
        <input class="input is-medium" type="number" min="0" max="${shares}" placeholder="0">
      </div>
    </div>
-   <h3 class="title">Total: <strong>$0</strong></h3>
+   <h3 class="title total-sale">Sale Value: <strong>$0</strong></h3>
    <a class="button is-medium is-warning">CONFIRM SALE</a>
    </article>
   </div>
@@ -51,7 +51,9 @@ function handleSellInput(currency, value, sharesToSell) {
   // calls on a function that multiplies sharesToSell by value
   let total = totalBuy(value, sharesToSell);
   // renders the return of that function on the page
-  console.log(total);
+  document.getElementsByClassName("total-sale")[0].innerHTML = `
+    Sale Value: <strong>$${total}</strong>
+  `;
 }
 
 function totalBuy(value, sharesToSell) {

@@ -42,7 +42,6 @@ class Portfolio {
         </td>
         <td>${holding.currency}</td>
         <td>${holding.shares}</td>
-        <td>38</td>
         <td class="holding-total">$${holdingValue}</td>
         <td>
           <a class="button is-small is-primary" href="#">

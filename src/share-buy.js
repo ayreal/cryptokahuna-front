@@ -30,16 +30,15 @@ function openBuy(currency, value) {
   `;
 
   // adds an event listener to the shares input. OnChange it runs calcTotalBuys
-  //// refactor this
   document.getElementById("buy-sell").addEventListener("input", e => {
     console.log("buy-sell listener");
-    e.stopImmediatePropagation(); // prevents duplicate event listeners
     let amountShares = e.target.value; // number of shares entered
     let total = calcTotalBuy(value, amountShares); // total cost (if affordable)
     let confirmBuyButton = document.getElementById("confirm-buy");
-
+    
     // total is true if user can afford the transaction
     total ? displayTotal(confirmBuyButton, total) : removeTotal(confirmBuyButton);
+    e.stopPropagation(); // prevents duplicate event listeners
   });
 }
 
@@ -52,7 +51,8 @@ function displayTotal(confirmBuyButton, total) {
       `;
   confirmBuyButton.addEventListener("click", e => {
     e.stopImmediatePropagation(); // prevents duplicate event listeners
-    console.log("BUY");
+    let buttonText = document.querySelector("a#confirm-buy").innerText;
+    buttonText === "CONFIRM PURCHASE" ? console.log("buy") : console.log("no buy");
   });
 }
 

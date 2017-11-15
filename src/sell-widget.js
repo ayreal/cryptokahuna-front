@@ -17,17 +17,18 @@ function openSell(currency) {
   );
 
   document.getElementById("buy-sell").addEventListener("input", e => {
+    // e.stopImmediatePropagation(); // prevents duplicate event listeners
     let sharesToSell = e.target.value;
-    e.stopImmediatePropagation(); // prevents duplicate event listeners
 
-    while (sharesToSell <= currentShares) {
+    if (sharesToSell <= currentShares) {
       handleSellInput(currency, value, sharesToSell);
+    } else {
+      console.log("no");
     }
   });
 }
 
 function renderSell(currency, value, shares) {
-  let total = parseFloat(value * shares).toFixed(2);
   return `
   <div class="level-item has-text-centered">
    <article class="tile is-child notification is-info">
@@ -38,7 +39,7 @@ function renderSell(currency, value, shares) {
        <input class="input is-medium" type="number" min="0" max="${shares}" placeholder="0">
      </div>
    </div>
-   <h3 class="title">Total: <strong>$${total}</strong></h3>
+   <h3 class="title">Total: <strong>$0</strong></h3>
    <a class="button is-medium is-warning">CONFIRM SALE</a>
    </article>
   </div>
@@ -47,7 +48,12 @@ function renderSell(currency, value, shares) {
 }
 
 function handleSellInput(currency, value, sharesToSell) {
-  console.log("handling input");
-  // calls on a function that multiplies sharesToSell by value (and validates)
-  // renders the return of that function if true
+  // calls on a function that multiplies sharesToSell by value
+  let total = totalBuy(value, sharesToSell);
+  // renders the return of that function on the page
+  console.log(total);
+}
+
+function totalBuy(value, sharesToSell) {
+  return parseFloat(value * sharesToSell).toFixed(2);
 }

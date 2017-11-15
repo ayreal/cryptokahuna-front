@@ -7,11 +7,6 @@ class Portfolio {
     this.holdings = data.holdings; // an array
   }
 
-  renderPortfolio() {
-    portfolio.renderPortfolioValue();
-    portfolio.renderPortfolioDiv();
-  }
-
   // updates cash display
   renderLiquidAssets() {
     liquidAssets.innerHTML = `
@@ -21,11 +16,10 @@ class Portfolio {
   }
 
   // updates portfolio value
-  renderPortfolioValue() {
-    let value = this.calculateHoldings()
+  renderPortfolioValue(value) {
     portfolioValue.innerHTML = `
     <h2 class="subtitle">Current Portfolio Value</h2>
-    <h1 class="title is-1">$${value}</h1>
+    <h1 class="title is-1">$0</h1>
     `;
   }
 
@@ -67,11 +61,6 @@ class Portfolio {
     return (parseFloat(currencyValue) * parseFloat(holding.shares)).toFixed(2);
   }
 
-  calculateHoldings(){
-    const holdings = document.getElementsByClassName("holding-total");
-    // holdings.forEach(function(holding) {
-    //   debugger
-    // })
-  }
+
 
 }

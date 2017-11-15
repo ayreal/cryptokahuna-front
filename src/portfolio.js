@@ -37,7 +37,7 @@ class Portfolio {
       function(holding) {
         const holdingValue = this.calcHoldingValue(holding);
         let line = `
-      <tr>
+      <tr id="holding-${holding.currency}">
         <td width="5%">
           <i class="fa fa-line-chart" />
         </td>
@@ -71,6 +71,33 @@ class Portfolio {
     let holdingObj = this.holdings.find(
       holding => holding.currency === currency
     );
-    return parseFloat(holdingObj.shares);
+    // checks to see if portfolio has currency
+    if (holdingObj) {
+      return parseFloat(holdingObj.shares);
+    } else {
+      return false;
+    }
   }
+
+  // appendNewHolding(shares,currency) {
+    
+  //   let portfolio = document.getElementById("portfolio")
+  //   let line = document.createElement("tr");
+  //   portfolio.appendChild(line)
+
+  //   line.innerHTML = `
+  //       <td width="5%">
+  //         <i class="fa fa-line-chart" />
+  //       </td>
+  //       <td>${currency}</td>
+  //       <td>${shares}</td>
+  //       <td>$${holdingValue}</td>
+  //       <td>
+  //         <a class="button is-small is-primary" data-currency="${holding.currency}" href="#">
+  //           SELL
+  //         </a>
+  //       </td>
+      
+  //     `
+  // }
 }

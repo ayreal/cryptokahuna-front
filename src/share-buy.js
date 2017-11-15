@@ -53,33 +53,81 @@ function displayTotal(confirmBuyButton, total) {
         const total = parseFloat((document.querySelector("#total-buy > strong").innerText).slice(1)); // stores total purchase cost
         e.stopImmediatePropagation(); // prevents duplicate event listeners
         let buttonText = document.querySelector("a#confirm-buy").innerText;
-        buttonText === "CONFIRM PURCHASE" ? completePurchase(total) : console.log("no buy");
+        const shareNum = document.querySelector("#buy-shares").value;
+        const currency = document
+          .querySelector("#buy-sell > div > article > p")
+          .innerText.split("$")[0]
+          .slice(0, -3);
+        buttonText === "CONFIRM PURCHASE" ? completePurchase(total, shareNum, currency) : console.log("no buy");
     });
 }
 
-function completePurchase(total) {
-    // subtract total from user cash (fetch post to user)
-    updateUserCash(total, "buy")
-    // add the purchase to the portfolio's holdings (fetch post to holdings)
-    // display "purchase complete" and remove buy box?
+function completePurchase(total, shares, currency) {
+    updateUserCash(total, "buy"); // subtract total from user cash (fetch post to user)
+    buyShares(shares, currency) // add the purchase to the portfolio's holdings (fetch post to holdings)
+    // replace buy box with "purchase complete"
 }
 
 function updateUserCash(amount, action) {
-    let cash;
-    if (action === "buy") {
-        cash = user.cash - amount;
-    } else {
-        cash = user.cash + amount;
+  let cash;
+  if (action === "buy") {
+      cash = user.cash - amount;
+  } else {
+      cash = user.cash + amount;
+  }
+  fetch(`https://crypto-kahuna-api.herokuapp.com/api/v1/users/${user.id}`, {
+    method: "PATCH",
+    body: JSON.stringify({ 
+        cash: cash
+      }),
+    headers: {
+      "Content-Type": "application/json"
     }
-    fetch(`https://crypto-kahuna-api.herokuapp.com/api/v1/users/${user.id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ 
-          cash: cash
-        }),
-      headers: {
-        "Content-Type": "application/json"
+  });
+  const cashDisplay = (document.querySelector("#liquid-assets > h1"));
+  cashDisplay.innerText = `$${parseFloat(cash).toFixed(2)}`;
+}
+
+function buyShares(shares, currency) {
+  if (portfolio.getHoldingsForCurrency(currency)) { // checks to see if the portfolio already has this currency
+    console.log("already have it");
+    const holdingId = portfolio.holdings.find(holding => {
+      return holding.currency === currency;
+    }).id
+    buyHoldingsFetch(holdingId, shares, currency, "buy");
+    renderUpdateHolding(shares, currency)
+  } else {
+    console.log("don't have it")
+    buyHoldingsFetch(0, shares, currency, "buy")
+    portfolio.appendNewHolding(shares,currency)
+  }
+  //op
+}
+
+//// make abstract so it works for buys AND sells
+function buyHoldingsFetch (id, shares, currency, action) {
+  let url = "https://crypto-kahuna-api.herokuapp.com/api/v1/holdings/";
+  let method;
+  let postData;
+  if (id !== 0) {
+      shares = portfolio.getHoldingsForCurrency(currency) + parseFloat(shares);
+      url += id;
+      method = "PATCH";
+      postData = { shares: shares }
+  } else {
+      method = "POST";
+      postData = {
+        currency: currency,
+        portfolio_id: portfolio.id,
+        shares: shares
       }
-    }).then(resp => console.log(resp));
+  }
+  fetch(url, {
+    method: method,
+    body: JSON.stringify(postData),
+    headers: {
+      "Content-Type": "application/json"
+    }})
 }
 
 function removeTotal(confirmBuyButton) {
@@ -105,3 +153,11 @@ function calcTotalBuy(value, amount) {
       return false;
     }
 }
+
+function renderUpdateHolding(shares, currency){
+  shares = parseFloat(shares)
+  let el = document.querySelector(`#holding-${currency} > td:nth-child(3)`);
+  let newShares = parseFloat(el.innerText) + shares
+  el.innerText = newShares
+}
+

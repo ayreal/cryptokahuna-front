@@ -17,21 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
   attachListeners();
 });
 
-// fetches latest quotes from cryptocompare api
-function fetchQuotes() {
-  const PATH = "https://min-api.cryptocompare.com";
-  const ROUTE = "/data/pricemulti?fsyms=BTC,ETH,DASH,ZEC,XMR,LTC&tsyms=USD";
-  fetch(`${PATH}${ROUTE}`)
-    .then(res => res.json())
-    .then(json => setPrices(json));
-}
-
 // fetches portfolio data from backend api
 function fetchPortfolio() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/";
   fetch(`${PATH}${portfolioId}`)
-    .then(resp => resp.json())
-    .then(json => makePortfolio(json));
+  .then(resp => resp.json())
+  .then(json => makePortfolio(json));
 }
 
 function makePortfolio(data) {
@@ -48,8 +39,17 @@ function refreshQuotes() {
   fetchQuotes();
   let date = new Date().toLocaleString("en-US");
   document.getElementById("last-updated").innerHTML = `
-    <strong>Last updated</strong> ${date}
+  <strong>Last updated</strong> ${date}
   `;
+}
+
+// fetches latest quotes from cryptocompare api
+function fetchQuotes() {
+  const PATH = "https://min-api.cryptocompare.com";
+  const ROUTE = "/data/pricemulti?fsyms=BTC,ETH,DASH,ZEC,XMR,LTC&tsyms=USD";
+  fetch(`${PATH}${ROUTE}`)
+    .then(res => res.json())
+    .then(json => setPrices(json));
 }
 
 // updates ticker prices with latest data from fetchQuotes

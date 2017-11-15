@@ -1,4 +1,4 @@
-const userId = 1;
+const portfolioId = 1;
 let user;
 const ticker = document.getElementById("ticker");
 const bitcoin = document.getElementById("BTC");
@@ -12,7 +12,7 @@ const liquidAssets = document.getElementById("liquid-assets");
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchQuotes();
-  fetchUser();
+  fetchPortfolio();
   window.setInterval(refreshQuotes, 60000); // polling timer default is 10000
   attachListeners();
 });
@@ -25,17 +25,18 @@ function fetchQuotes() {
     .then(json => setPrices(json));
 }
 
-function fetchUser() {
-  const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
-  fetch(`${PATH}${userId}`)
+function fetchPortfolio() {
+  const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/";
+  fetch(`${PATH}${portfolioId}`)
     .then(resp => resp.json())
-    .then(json => makeUser(json));
+    .then(json => makePortfolio(json));
 }
 
-function makeUser(data) {
-  user = new User(data);
-  user.renderLiquidAssets();
-  user.renderportfolioValue();
+function makePortfolio(data) {
+  portfolio = new Portfolio(data);
+  // make this find or create by
+  portfolio.renderLiquidAssets();
+  portfolio.renderPortfolioValue();
 }
 
 function refreshQuotes() {

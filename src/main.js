@@ -1,4 +1,5 @@
-const portfolioId = 1;
+let userId = 1; // make dynamic
+const portfolioId = 1; //// make dynamic
 let user;
 let portfolio;
 const ticker = document.getElementById("ticker");
@@ -13,6 +14,7 @@ const liquidAssets = document.getElementById("liquid-assets");
 
 document.addEventListener("DOMContentLoaded", () => {
   refreshQuotes(); // refreshes quotes right away before first interval is hit
+  fetchUser();
   fetchPortfolio();
   window.setInterval(pageRefresh, 10000); // polling timer default is 10000
   tickerListener();
@@ -22,8 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function fetchPortfolio() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/";
   fetch(`${PATH}${portfolioId}`)
-  .then(resp => resp.json())
-  .then(json => makePortfolio(json));
+    .then(resp => resp.json())
+    .then(json => makePortfolio(json));
 }
 
 function makePortfolio(data) {
@@ -31,6 +33,13 @@ function makePortfolio(data) {
   // make this find or create by
   portfolio.renderLiquidAssets();
   portfolio.renderPortfolioDiv();
+}
+
+function fetchUser() {
+  const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
+  fetch(`${PATH}${userId}`)
+    .then(resp => resp.json())
+    .then(json => {user = json});
 }
 
 function pageRefresh() {

@@ -43,17 +43,43 @@ function openBuy(currency, value) {
 }
 
 function displayTotal(confirmBuyButton, total) {
-  document.getElementById("total-buy").innerHTML = `
+    document.getElementById("total-buy").innerHTML = `
         Total: <strong>$${total}</strong>
       `;
-  confirmBuyButton.innerHTML = `
+    confirmBuyButton.innerHTML = `
         CONFIRM PURCHASE
       `;
-  confirmBuyButton.addEventListener("click", e => {
-    e.stopImmediatePropagation(); // prevents duplicate event listeners
-    let buttonText = document.querySelector("a#confirm-buy").innerText;
-    buttonText === "CONFIRM PURCHASE" ? console.log("buy") : console.log("no buy");
-  });
+    confirmBuyButton.addEventListener("click", e => {
+        const total = parseFloat((document.querySelector("#total-buy > strong").innerText).slice(1)); // stores total purchase cost
+        e.stopImmediatePropagation(); // prevents duplicate event listeners
+        let buttonText = document.querySelector("a#confirm-buy").innerText;
+        buttonText === "CONFIRM PURCHASE" ? completePurchase(total) : console.log("no buy");
+    });
+}
+
+function completePurchase(total) {
+    // subtract total from user cash (fetch post to user)
+    updateUserCash(total, "buy")
+    // add the purchase to the portfolio's holdings (fetch post to holdings)
+    // display "purchase complete" and remove buy box?
+}
+
+function updateUserCash(amount, action) {
+    let cash;
+    if (action === "buy") {
+        cash = user.cash - amount;
+    } else {
+        cash = user.cash + amount;
+    }
+    fetch(`https://crypto-kahuna-api.herokuapp.com/api/v1/users/${user.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ 
+          cash: cash
+        }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(resp => console.log(resp));
 }
 
 function removeTotal(confirmBuyButton) {

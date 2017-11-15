@@ -95,11 +95,11 @@ function buyShares(shares, currency) {
       return holding.currency === currency;
     }).id
     buyHoldingsFetch(holdingId, shares, currency, "buy");
-    renderUpdateHolding(shares, currency)
+    // renderUpdateHolding(shares, currency)
   } else {
     console.log("don't have it")
     buyHoldingsFetch(0, shares, currency, "buy")
-    portfolio.appendNewHolding(shares,currency)
+    
   }
   //op
 }
@@ -127,7 +127,7 @@ function buyHoldingsFetch (id, shares, currency, action) {
     body: JSON.stringify(postData),
     headers: {
       "Content-Type": "application/json"
-    }})
+    }}).then(fetchPortfolio())
 }
 
 function removeTotal(confirmBuyButton) {

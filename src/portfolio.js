@@ -79,25 +79,25 @@ class Portfolio {
     }
   }
 
-  // appendNewHolding(shares,currency) {
+  appendNewHolding(shares,currency) {
     
-  //   let portfolio = document.getElementById("portfolio")
-  //   let line = document.createElement("tr");
-  //   portfolio.appendChild(line)
+    let portfolio = document.getElementById("portfolio")
+    let line = document.createElement("tr");
+    portfolio.appendChild(line)
 
-  //   line.innerHTML = `
-  //       <td width="5%">
-  //         <i class="fa fa-line-chart" />
-  //       </td>
-  //       <td>${currency}</td>
-  //       <td>${shares}</td>
-  //       <td>$${holdingValue}</td>
-  //       <td>
-  //         <a class="button is-small is-primary" data-currency="${holding.currency}" href="#">
-  //           SELL
-  //         </a>
-  //       </td>
+    line.innerHTML = `
+        <td width="5%">
+          <i class="fa fa-line-chart" />
+        </td>
+        <td>${currency}</td>
+        <td>${shares}</td>
+        <td>$${holdingValue}</td>
+        <td>
+          <a class="button is-small is-primary" data-currency="${holding.currency}" href="#">
+            SELL
+          </a>
+        </td>
       
-  //     `
-  // }
+      `
+  }
 }

@@ -29,8 +29,7 @@ function makePortfolio(data) {
   portfolio = new Portfolio(data);
   // make this find or create by
   portfolio.renderLiquidAssets();
-  portfolio.renderPortfolioValue();
-  portfolio.renderPortfolioDiv()
+  portfolio.renderPortfolioDiv();
 }
 
 // calls fetchQuotes and updates "Last updated" with the current datetime

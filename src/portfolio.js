@@ -7,6 +7,11 @@ class Portfolio {
     this.holdings = data.holdings; // an array
   }
 
+  renderPortfolio() {
+    portfolio.renderPortfolioValue();
+    portfolio.renderPortfolioDiv();
+  }
+
   // updates cash display
   renderLiquidAssets() {
     liquidAssets.innerHTML = `
@@ -17,19 +22,19 @@ class Portfolio {
 
   // updates portfolio value
   renderPortfolioValue() {
-    // let value = calculateHoldings()
+    let value = this.calculateHoldings()
     portfolioValue.innerHTML = `
     <h2 class="subtitle">Current Portfolio Value</h2>
-    <h1 class="title is-1">$0</h1>
+    <h1 class="title is-1">$${value}</h1>
     `;
   }
 
   renderPortfolioDiv(){
     // call a fn that generates the innerHTML for the portfolioDIV
-    document.getElementById("portfolio").innerHTML = this.renderHolding()
+    document.getElementById("portfolio").innerHTML = this.renderHoldings()
     }
   
-  renderHolding() {
+  renderHoldings() {
     // loop through the holdings array
     // generate a string of HTML for each with the values
     let body = ""
@@ -43,7 +48,7 @@ class Portfolio {
         <td>${holding.currency}</td>
         <td>${holding.shares}</td>
         <td>38</td>
-        <td>$${holdingValue}</td>
+        <td class="holding-total">$${holdingValue}</td>
         <td>
           <a class="button is-small is-primary" href="#">
             SELL
@@ -60,6 +65,13 @@ class Portfolio {
     //holding is a holding object
     const currencyValue = document.getElementById(holding.currency).querySelector("#value").innerText;
     return (parseFloat(currencyValue) * parseFloat(holding.shares)).toFixed(2);
+  }
+
+  calculateHoldings(){
+    const holdings = document.getElementsByClassName("holding-total");
+    // holdings.forEach(function(holding) {
+    //   debugger
+    // })
   }
 
 }

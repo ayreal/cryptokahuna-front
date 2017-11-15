@@ -1,5 +1,5 @@
-const userId = 1;
-let user = {};
+const portfolioId = 1;
+let user;
 const ticker = document.getElementById("ticker");
 const bitcoin = document.getElementById("BTC");
 const dash = document.getElementById("DASH");
@@ -28,13 +28,19 @@ function fetchQuotes() {
     .then(json => setPrices(json));
 }
 
-// fetches user data from backend api
-//// update this so user can be changed
-function fetchUser() {
-  const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
-  fetch(`${PATH}${userId}`)
+// fetches portfolio data from backend api
+function fetchPortfolio() {
+  const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/";
+  fetch(`${PATH}${portfolioId}`)
     .then(resp => resp.json())
-    .then(json => (user = json));
+    .then(json => makePortfolio(json));
+}
+
+function makePortfolio(data) {
+  portfolio = new Portfolio(data);
+  // make this find or create by
+  portfolio.renderLiquidAssets();
+  portfolio.renderPortfolioValue();
 }
 
 // calls fetchQuotes and updates "Last updated" with the current datetime

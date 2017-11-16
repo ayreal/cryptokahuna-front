@@ -57,6 +57,10 @@ function refreshQuotes() {
   // call function that updates the time
   flashUpdates();
   fetchQuotes();
+  // refresh currency if the buy/sell widget is loaded
+  if (document.getElementById("buy-sell").innerText) {
+    getLiveValue();
+  }
   let date = new Date().toLocaleString("en-US");
   document.getElementById("last-updated").innerHTML = `
   <strong>Last updated</strong> ${date}

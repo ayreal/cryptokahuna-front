@@ -15,11 +15,14 @@ function tickerListener() {
 // renders the buy form and listens for inputs and clicks
 function openBuy(currency, value) {
   // renders the buy form
+
+  // value targets the ticker element (.blink class) with its currency name and updates accordingly
+
   document.getElementById("buy-sell").innerHTML = `
   <div class="level-item has-text-centered">
    <article class="tile is-child notification is-info">
      <h2 class="title">Buy Shares</h2>
-     <p>${currency} @ <strong>$${value}</strong></p>
+     <p id="live-value">${currency} @ <strong>$${value}</strong></p>
      <div class="field">
      <div class="control">
        <input class="input is-medium" id="buy-shares" type="number" min="0" placeholder="0">
@@ -44,6 +47,21 @@ function openBuy(currency, value) {
       : removeTotal(confirmBuyButton);
     e.stopPropagation(); // prevents duplicate event listeners
   });
+}
+
+function getLiveValue() {
+  let currency = document
+    .querySelector("#buy-sell > div > article > p")
+    .innerText.split("$")[0]
+    .slice(0, -3);
+
+  let value = [...document.getElementsByClassName("blink")].find(e => {
+    return e.parentElement.id === currency;
+  });
+
+  document.getElementById("live-value").innerHTML = `
+  ${currency} @ <strong>$${value.innerText}</strong>
+  `;
 }
 
 function displayTotal(confirmBuyButton, total) {

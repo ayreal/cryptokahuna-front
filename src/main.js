@@ -15,6 +15,7 @@ const liquidAssets = document.getElementById("liquid-assets");
 document.addEventListener("DOMContentLoaded", () => {
   refreshQuotes(); // refreshes quotes right away before first interval is hit
   fetchUser();
+  // needs to delay
   fetchPortfolio();
   window.setInterval(pageRefresh, 10000); // polling timer default is 10000
   tickerListener();
@@ -46,6 +47,7 @@ function fetchUser() {
 
 function pageRefresh() {
   refreshQuotes();
+  // setTimeout(portfolio.renderPortfolioDiv(), 300);
   portfolio.renderPortfolioDiv();
 }
 
@@ -53,6 +55,7 @@ function pageRefresh() {
 function refreshQuotes() {
   // call fetchQuotes every 10 sec
   // call function that updates the time
+  flashUpdates();
   fetchQuotes();
   let date = new Date().toLocaleString("en-US");
   document.getElementById("last-updated").innerHTML = `
@@ -106,9 +109,7 @@ function setPrices(data) {
 }
 
 function flashUpdates() {
-  $(".blink").change(function() {
-    $(".blink")
-      .fadeToggle(150)
-      .fadeToggle(200);
-  });
+  $(".blink")
+    .fadeToggle(150)
+    .fadeToggle(200);
 }

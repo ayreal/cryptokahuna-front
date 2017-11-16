@@ -4,10 +4,21 @@ class Portfolio {
     this.userId = data.user_id;
     this.userName = data.user.name;
     this.cash = data.user.cash;
-    this.holdings = data.holdings; // an array
+    this.holdings = data.holdings.sort((a, b) => {
+      if (a.currency < b.currency) return -1;
+      if (a.currency > b.currency) return 1;
+      return 0;
+    }); // an array, alphebetized
   }
 
   // updates cash display
+
+  sortHoldings(a, b) {
+    if (a.currency < b.currency) return -1;
+    if (a.currency > b.currency) return 1;
+    return 0;
+  }
+
   renderLiquidAssets() {
     liquidAssets.innerHTML = `
     <h2 class="subtitle">Current Liquid Assets</h2>

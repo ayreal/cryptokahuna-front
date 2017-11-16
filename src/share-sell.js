@@ -79,13 +79,23 @@ function renderSaleTotal(currency, value, sharesToSell) {
   `;
 }
 
+// removes shares from api
 function sellHoldingsFetch(id, newShares) {
-  var url = `https://crypto-kahuna-api.herokuapp.com/api/v1/holdings/${id}`; // make dynamic
+  const url = `https://crypto-kahuna-api.herokuapp.com/api/v1/holdings/${id}`;
+  let method;
+  let body;
+  let headers;
+  if (newShares > 0) {
+    method = "PATCH";
+    body = JSON.stringify({ shares: newShares });
+    headers = { "Content-Type": "application/json" };
+  // deletes the holding if selling all shares
+  } else {
+    method = "DELETE";
+  }
   fetch(url, {
-    method: "PATCH",
-    body: JSON.stringify({ shares: newShares }), // make dynamic
-    headers: {
-      "Content-Type": "application/json"
-    }
+    method: method,
+    body: body,
+    headers: headers
   }).then(res => fetchPortfolio());
 }

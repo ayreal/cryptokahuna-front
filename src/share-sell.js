@@ -24,7 +24,7 @@ function openSell(currency) {
     let sharesToSell = e.target.value;
     // checks if user entered a valid number of shares
     if (sharesToSell <= currentShares && sharesToSell > 0) {
-      handleSellInput(currency, value, sharesToSell);
+      renderSaleTotal(currency, value, sharesToSell);
     } else {
       document.querySelector(
         "#buy-sell > div > article > div > div > input"
@@ -34,12 +34,16 @@ function openSell(currency) {
   });
 
   // adds listener to CONFIRM SALE button and processes transaction
-  //// THIS SHOULD ONLY TRIGGER ON VALID SALES
+  //// does it matter that a user can "sell" 0 shares?
   document.querySelector("a#confirm-sell").addEventListener("click", e => {
-    // submit a patch request
-    console.log("selling")
-    let id = portfolio.getHoldingIdForCurrency(currency);
-    // buyHoldingsFetch(id, sharesToSell, currency, "sell");
+    const id = portfolio.getHoldingIdForCurrency(currency);
+    const sharesToSell = parseFloat(document.querySelector("#buy-sell > div > article > div > div > input").value);
+    let newShares = currentShares - sharesToSell;
+    let amount = parseFloat(document
+        .querySelector("#buy-sell > div > article > h3 > strong")
+        .innerText.slice(1));
+    updateUserCash(amount, "sell");
+    sellHoldingsFetch(id, newShares);
   });
 }
 
@@ -66,11 +70,22 @@ function renderSell(currency, value, shares) {
 }
 
 // updates "Sale Value" amount with total
-function handleSellInput(currency, value, sharesToSell) {
+function renderSaleTotal(currency, value, sharesToSell) {
   // calls on a function that multiplies sharesToSell by value
   let total = parseFloat(value * sharesToSell).toFixed(2);
   // renders the return of that function on the page
   document.getElementsByClassName("total-sale")[0].innerHTML = `
     Sale Value: <strong>$${total}</strong>
   `;
+}
+
+function sellHoldingsFetch(id, newShares) {
+  var url = `https://crypto-kahuna-api.herokuapp.com/api/v1/holdings/${id}`; // make dynamic
+  fetch(url, {
+    method: "PATCH",
+    body: JSON.stringify({ shares: newShares }), // make dynamic
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => fetchPortfolio());
 }

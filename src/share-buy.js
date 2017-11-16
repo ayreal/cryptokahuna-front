@@ -33,7 +33,6 @@ function openBuy(currency, value) {
 
   // adds an event listener to the shares input. OnChange it runs calcTotalBuys
   document.getElementById("buy-sell").addEventListener("input", e => {
-    console.log("buy-sell listener");
     let amountShares = e.target.value; // number of shares entered
     let total = calcTotalBuy(value, amountShares); // total cost (if affordable)
     let confirmBuyButton = document.getElementById("confirm-buy");
@@ -76,46 +75,23 @@ function completePurchase(total, shares, currency) {
   // replace buy box with "purchase complete"
 }
 
-function updateUserCash(amount, action) {
-  let cash;
-  if (action === "buy") {
-    cash = user.cash - amount;
-  } else {
-    cash = user.cash + amount;
-  }
-  fetch(`https://crypto-kahuna-api.herokuapp.com/api/v1/users/${user.id}`, {
-    method: "PATCH",
-    body: JSON.stringify({
-      cash: cash
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  });
-  const cashDisplay = document.querySelector("#liquid-assets > h1");
-  cashDisplay.innerText = `$${parseFloat(cash).toFixed(2)}`;
-}
-
 function buyShares(shares, currency) {
   if (portfolio.getHoldingsForCurrency(currency)) {
     // checks to see if the portfolio already has this currency
-    console.log("already have it");
     const holdingId = portfolio.getHoldingIdForCurrency(currency);
-    debugger;
-    buyHoldingsFetch(holdingId, shares, currency, "buy");
+    buyHoldingsFetch(holdingId, shares, currency);
     // renderUpdgitaateHolding(shares, currency)
   } else {
-    console.log("don't have it");
-    buyHoldingsFetch(0, shares, currency, "buy");
+    buyHoldingsFetch(0, shares, currency);
   }
-  //op
 }
 
-//// make abstract so it works for buys AND sells
-function buyHoldingsFetch(id, shares, currency, action) {
+// posts or patches the holdings api depending on whether or not the portfolio already has that currency
+function buyHoldingsFetch(id, shares, currency) {
   let url = "https://crypto-kahuna-api.herokuapp.com/api/v1/holdings/";
   let method;
   let postData;
+  // id of 0 signifies a buy for currency not currently held in portfolio
   if (id !== 0) {
     shares = portfolio.getHoldingsForCurrency(currency) + parseFloat(shares);
     url += id;
@@ -135,7 +111,7 @@ function buyHoldingsFetch(id, shares, currency, action) {
     headers: {
       "Content-Type": "application/json"
     }
-  }).then(fetchPortfolio());
+  }).then(res => fetchPortfolio());
 }
 
 function removeTotal(confirmBuyButton) {
@@ -162,9 +138,9 @@ function calcTotalBuy(value, amount) {
   }
 }
 
-function renderUpdateHolding(shares, currency) {
-  shares = parseFloat(shares);
-  let el = document.querySelector(`#holding-${currency} > td:nth-child(3)`);
-  let newShares = parseFloat(el.innerText) + shares;
-  el.innerText = newShares;
-}
+// function renderUpdateHolding(shares, currency) {
+//   shares = parseFloat(shares);
+//   let el = document.querySelector(`#holding-${currency} > td:nth-child(3)`);
+//   let newShares = parseFloat(el.innerText) + shares;
+//   el.innerText = newShares;
+// }

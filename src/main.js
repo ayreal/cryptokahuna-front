@@ -112,3 +112,23 @@ function flashUpdates() {
       .fadeToggle(200);
   });
 }
+
+function updateUserCash(amount, action) {
+  let cash;
+  if (action === "buy") {
+    cash = user.cash - amount;
+  } else {
+    cash = user.cash + amount;
+  }
+  fetch(`https://crypto-kahuna-api.herokuapp.com/api/v1/users/${user.id}`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      cash: cash
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  const cashDisplay = document.querySelector("#liquid-assets > h1");
+  cashDisplay.innerText = `$${parseFloat(cash).toFixed(2)}`;
+}

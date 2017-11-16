@@ -159,10 +159,3 @@ function calcTotalBuy(value, amount, currency) {
     return false;
   }
 }
-
-// function renderUpdateHolding(shares, currency) {
-//   shares = parseFloat(shares);
-//   let el = document.querySelector(`#holding-${currency} > td:nth-child(3)`);
-//   let newShares = parseFloat(el.innerText) + shares;
-//   el.innerText = newShares;
-// }

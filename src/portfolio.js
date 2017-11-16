@@ -45,7 +45,7 @@ class Portfolio {
         <td>${holding.shares}</td>
         <td>$${holdingValue}</td>
         <td>
-          <a class="button is-small is-primary" data-currency="${holding.currency}" href="#">
+          <a class="button is-small is-primary" data-currency="${holding.currency}" href="#buy-sell">
             SELL
           </a>
         </td>
@@ -79,11 +79,16 @@ class Portfolio {
     }
   }
 
-  appendNewHolding(shares,currency) {
-    
-    let portfolio = document.getElementById("portfolio")
+  getHoldingIdForCurrency(currency) {
+    return this.holdings.find(holding => {
+      return holding.currency === currency;
+    }).id;
+  }
+
+  appendNewHolding(shares, currency) {
+    let portfolio = document.getElementById("portfolio");
     let line = document.createElement("tr");
-    portfolio.appendChild(line)
+    portfolio.appendChild(line);
 
     line.innerHTML = `
         <td width="5%">
@@ -97,7 +102,7 @@ class Portfolio {
             SELL
           </a>
         </td>
-      
-      `
+
+      `;
   }
 }

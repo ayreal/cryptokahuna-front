@@ -38,7 +38,8 @@ function openBuy(currency, value) {
   document.getElementById("buy-sell").addEventListener("input", e => {
     console.log("buy-sell listener");
     let amountShares = e.target.value; // number of shares entered
-    let total = calcTotalBuy(value, amountShares); // total cost (if affordable)
+    // console.log("currency is", currency);
+    let total = calcTotalBuy(value, amountShares, currency); // total cost (if affordable)
     let confirmBuyButton = document.getElementById("confirm-buy");
 
     // total is true if user can afford the transaction
@@ -166,9 +167,12 @@ function removeTotal(confirmBuyButton) {
 }
 
 // calculates purchase total and determines if user can afford the transaction
-function calcTotalBuy(value, amount) {
+function calcTotalBuy(value, amount, currency) {
   let cash = portfolio.cash;
-  value = parseFloat(value); // cost per share
+  value = [...document.getElementsByClassName("blink")].find(e => {
+    return e.parentElement.id === currency;
+  });
+  value = parseFloat(value.innerText); // cost per share
   amount = parseFloat(amount); // number of shares enetered
   let total = parseFloat(amount * value).toFixed(2); // total cost (value * amount)
   let remainingFunds = parseFloat(cash - total).toFixed(2); // remaining funds

@@ -1,7 +1,6 @@
-let userId = 1; //// remove this??; should use user.id instead??
-const portfolioId = 1; //// make dynamic
-let user = "test"
-let portfolio; // what happens when we have a user?
+let user;
+let portfolio;
+let portfolioId = 1; //// make this dependent on the user
 const ticker = document.getElementById("ticker");
 const bitcoin = document.getElementById("BTC");
 const dash = document.getElementById("DASH");
@@ -36,7 +35,7 @@ function makePortfolio(data) {
   portfolio.renderPortfolioDiv();
 }
 
-function fetchUser() {
+function fetchUser(userId) {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
   fetch(`${PATH}${userId}`)
     .then(resp => resp.json())

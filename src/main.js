@@ -1,6 +1,6 @@
-let userId = 1; // make dynamic
+let userId = 1; //// remove this??; should use user.id instead??
 const portfolioId = 1; //// make dynamic
-let user;
+let user = "test"
 let portfolio; // what happens when we have a user?
 const ticker = document.getElementById("ticker");
 const bitcoin = document.getElementById("BTC");
@@ -14,7 +14,7 @@ const liquidAssets = document.getElementById("liquid-assets");
 
 document.addEventListener("DOMContentLoaded", () => {
   refreshQuotes(); // refreshes quotes right away before first interval is hit
-  fetchUser();
+  // fetchUser();
   // needs to delay
   fetchPortfolio();
   window.setInterval(pageRefresh, 10000); // polling timer default is 10000

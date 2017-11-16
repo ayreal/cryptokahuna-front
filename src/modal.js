@@ -1,4 +1,4 @@
-let modal = document.querySelector(".modal");
+const modal = document.querySelector(".modal");
 
 // listens for clicks on login and either logs them in, gives an error, or creates a user
 modal.addEventListener("click", e => {
@@ -6,11 +6,65 @@ modal.addEventListener("click", e => {
     const cryptokey = e.path[2].firstElementChild.querySelector("input").value;
     fetchUsers(cryptokey);
   } else if (e.target.id === "new-user") {
-    // ask for a username
-    // create a new User (post to api)
-    // return their cryptokey
+    newUser()
   }
 });
+
+function newUser() {
+  // prevents duplicate renders
+  if (!document.getElementById("new-user-input")) {
+    renderNewUserForm();
+  }
+  // create a new User (post to api)
+  // display their cryptokey and tell them not to lose it
+}
+
+//// refactor this with .innerHTML?
+function renderNewUserForm() {
+  const loginBox = document.querySelector("body > div > div.modal-content > nav > div > div");
+  const newUserDiv = document.createElement("div");
+  const newUserButton = document.createElement("button");
+  newUserDiv.id = "new-user-input";
+  newUserDiv.innerText = "Enter a username: ";
+  newUserDiv.innerHTML += '<input class="input" id="new-username" size="10" type="text" placeholder="Enter Username">';
+  //// style this button
+  newUserButton.innerText = "submit";
+  newUserButton.addEventListener("click", e => {
+    createUser()
+  })
+  newUserDiv.appendChild(newUserButton);
+  loginBox.append(newUserDiv);
+}
+
+function createUser() {
+  const username = document.getElementById('new-username').value;
+  const cryptokey = generateCryptokey();
+
+  fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/users/", {
+    method: "POST",
+    body: JSON.stringify({ 
+      name: username, 
+      cash: 10000,
+      cryptokey: cryptokey
+     }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(resp => console.log(resp));
+
+  displayCryptokey(username, cryptokey);
+}
+
+function displayCryptokey(username, cryptokey) {
+  // remove new user divs
+  document.getElementById("new-user-input").remove();
+  document.getElementById("new-user-line").remove();
+  const loginBox = document.querySelector("body > div > div.modal-content > nav > div > div");
+  // welcome new user
+  const welcomeDiv = document.createElement('div');
+  welcomeDiv.innerHTML = ` Welcome ${username}! Your cryptokey is:<br><b>${cryptokey}</b><br>Don't lose this! This will be how you log in moving forward. Give it a try by entering it above.`;
+  loginBox.appendChild(welcomeDiv);
+}
 
 function closeModal() {
   modal.className = "modal";
@@ -36,7 +90,7 @@ function findUser(users, cryptokey) {
   } else {
     invalidCryptokey();
     clearCryptokeyTextField();
-    $('#wrong-cryptokey').delay(5000).fadeOut();
+    $('#wrong-cryptokey').delay(4000).fadeOut();
   }
 }
 

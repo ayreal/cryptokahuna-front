@@ -140,7 +140,7 @@ function buyHoldingsFetch(id, shares, currency, action) {
 
 function removeTotal(confirmBuyButton) {
   document.getElementById("total-buy").innerHTML = `
-
+    Total: <strong>$0</strong>
   `;
   confirmBuyButton.innerHTML = `
     INVALID FUNDS

@@ -39,7 +39,9 @@ function fetchUser() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
   fetch(`${PATH}${userId}`)
     .then(resp => resp.json())
-    .then(json => {user = json});
+    .then(json => {
+      user = json;
+    });
 }
 
 function pageRefresh() {
@@ -101,4 +103,12 @@ function setPrices(data) {
   zcash.querySelector("#value").innerHTML = `
     <strong>${valueZEC}</strong>
   `;
+}
+
+function flashUpdates() {
+  $(".blink").change(function() {
+    $(".blink")
+      .fadeToggle(150)
+      .fadeToggle(200);
+  });
 }

@@ -1,3 +1,4 @@
+// adds listener to portfolio table and listens for a click on SELL buttons
 document.getElementById("portfolio").addEventListener("click", e => {
   if (e.target.tagName === "A") {
     let currency = e.target.dataset.currency;
@@ -5,6 +6,8 @@ document.getElementById("portfolio").addEventListener("click", e => {
   }
 });
 
+
+// calls renderSell() and passes in necessary variables
 function openSell(currency) {
   let value = document.getElementById(currency).querySelector("#value")
     .innerText;
@@ -15,8 +18,11 @@ function openSell(currency) {
     currentShares
   );
 
+  // adds listener to the sell widget
+  //// refactor this out of openSell()
   document.getElementById("buy-sell").addEventListener("input", e => {
     let sharesToSell = e.target.value;
+    // checks if user entered a valid number of shares
     if (sharesToSell <= currentShares && sharesToSell > 0) {
       handleSellInput(currency, value, sharesToSell);
     } else {
@@ -27,13 +33,17 @@ function openSell(currency) {
     }
   });
 
+  // adds listener to CONFIRM SALE button and processes transaction
+  //// THIS SHOULD ONLY TRIGGER ON VALID SALES
   document.querySelector("a#confirm-sell").addEventListener("click", e => {
     // submit a patch request
+    console.log("selling")
     let id = portfolio.getHoldingIdForCurrency(currency);
     // buyHoldingsFetch(id, sharesToSell, currency, "sell");
   });
 }
 
+// opens the sell widget
 function renderSell(currency, value, shares) {
   return `
 
@@ -55,15 +65,12 @@ function renderSell(currency, value, shares) {
   `;
 }
 
+// updates "Sale Value" amount with total
 function handleSellInput(currency, value, sharesToSell) {
   // calls on a function that multiplies sharesToSell by value
-  let total = totalBuy(value, sharesToSell);
+  let total = parseFloat(value * sharesToSell).toFixed(2);
   // renders the return of that function on the page
   document.getElementsByClassName("total-sale")[0].innerHTML = `
     Sale Value: <strong>$${total}</strong>
   `;
-}
-
-function totalBuy(value, sharesToSell) {
-  return parseFloat(value * sharesToSell).toFixed(2);
 }

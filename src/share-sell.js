@@ -1,3 +1,4 @@
+// adds listener to portfolio table and listens for a click on SELL buttons
 document.getElementById("portfolio").addEventListener("click", e => {
   if (e.target.tagName === "A") {
     let currency = e.target.dataset.currency;
@@ -5,6 +6,8 @@ document.getElementById("portfolio").addEventListener("click", e => {
   }
 });
 
+
+// calls renderSell() and passes in necessary variables
 function openSell(currency) {
   let value = document.getElementById(currency).querySelector("#value")
     .innerText;
@@ -15,10 +18,13 @@ function openSell(currency) {
     currentShares
   );
 
+  // adds listener to the sell widget
+  //// refactor this out of openSell()
   document.getElementById("buy-sell").addEventListener("input", e => {
     let sharesToSell = e.target.value;
+    // checks if user entered a valid number of shares
     if (sharesToSell <= currentShares && sharesToSell > 0) {
-      handleSellInput(currency, value, sharesToSell);
+      renderSaleTotal(currency, value, sharesToSell);
     } else {
       document.querySelector(
         "#buy-sell > div > article > div > div > input"
@@ -27,13 +33,21 @@ function openSell(currency) {
     }
   });
 
+  // adds listener to CONFIRM SALE button and processes transaction
+  //// does it matter that a user can "sell" 0 shares?
   document.querySelector("a#confirm-sell").addEventListener("click", e => {
-    // submit a patch request
-    let id = portfolio.getHoldingIdForCurrency(currency);
-    // buyHoldingsFetch(id, sharesToSell, currency, "sell");
+    const id = portfolio.getHoldingIdForCurrency(currency);
+    const sharesToSell = parseFloat(document.querySelector("#buy-sell > div > article > div > div > input").value);
+    let newShares = currentShares - sharesToSell;
+    let amount = parseFloat(document
+        .querySelector("#buy-sell > div > article > h3 > strong")
+        .innerText.slice(1));
+    updateUserCash(amount, "sell");
+    sellHoldingsFetch(id, newShares);
   });
 }
 
+// opens the sell widget
 function renderSell(currency, value, shares) {
   return `
 
@@ -55,15 +69,33 @@ function renderSell(currency, value, shares) {
   `;
 }
 
-function handleSellInput(currency, value, sharesToSell) {
+// updates "Sale Value" amount with total
+function renderSaleTotal(currency, value, sharesToSell) {
   // calls on a function that multiplies sharesToSell by value
-  let total = totalBuy(value, sharesToSell);
+  let total = parseFloat(value * sharesToSell).toFixed(2);
   // renders the return of that function on the page
   document.getElementsByClassName("total-sale")[0].innerHTML = `
     Sale Value: <strong>$${total}</strong>
   `;
 }
 
-function totalBuy(value, sharesToSell) {
-  return parseFloat(value * sharesToSell).toFixed(2);
+// removes shares from api
+function sellHoldingsFetch(id, newShares) {
+  const url = `https://crypto-kahuna-api.herokuapp.com/api/v1/holdings/${id}`;
+  let method;
+  let body;
+  let headers;
+  if (newShares > 0) {
+    method = "PATCH";
+    body = JSON.stringify({ shares: newShares });
+    headers = { "Content-Type": "application/json" };
+  // deletes the holding if selling all shares
+  } else {
+    method = "DELETE";
+  }
+  fetch(url, {
+    method: method,
+    body: body,
+    headers: headers
+  }).then(res => fetchPortfolio());
 }

@@ -32,10 +32,33 @@
 
   <!-- Begin Modal for Login -->
   <!-- To activate the modal, just add the is-active modifier on the .modal container -->
-  <div class="modal">
+  <div class="modal is-active">
     <div class="modal-background"></div>
     <div class="modal-content">
       <!-- content here -->
+
+
+
+      <nav class="level">
+        <div class="level-item has-text-centered">
+          <div class="box">
+            <h1 class="title is-1">Crypto Kahuna</h1>
+  <p>Please enter your encryped passphrase to proceed:</p>
+            <div class="field has-addons">
+              <div class="control">
+                <input class="input" size="35" type="text" placeholder="Enter Passphrase">
+              </div>
+              <div class="control">
+                <a class="button is-warning">
+            LOGIN
+          </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+
     </div>
     <button class="modal-close is-large"></button>
   </div>
@@ -218,6 +241,7 @@
   <script src="src/portfolio.js"></script>
   <script src="src/share-sell.js"></script>
   <script src="src/share-buy.js"></script>
+  <script src="src/modal.js"></script>
 </body>
 
 </html>

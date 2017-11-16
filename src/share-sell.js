@@ -75,6 +75,10 @@ function renderSell(currency, value, shares) {
 
 // updates "Sale Value" amount with total
 function renderSaleTotal(currency, value, sharesToSell) {
+  value = [...document.getElementsByClassName("blink")].find(e => {
+    return e.parentElement.id === currency;
+  });
+  value = value.innerText;
   // calls on a function that multiplies sharesToSell by value
   let total = parseFloat(value * sharesToSell).toFixed(2);
   // renders the return of that function on the page

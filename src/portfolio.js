@@ -79,9 +79,7 @@ class Portfolio {
     const currencyValue = document
       .getElementById(holding.currency)
       .querySelector("#value").innerText;
-
-    return (parseFloat(currencyValue) * parseFloat(holding.shares)
-    ).toLocaleString("en-US", { minimumFractionDigits: 2 });
+    return (parseFloat(currencyValue) * parseFloat(holding.shares)).toFixed(2);
   }
 
   getHoldingsForCurrency(currency) {

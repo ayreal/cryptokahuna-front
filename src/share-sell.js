@@ -6,7 +6,6 @@ document.getElementById("portfolio").addEventListener("click", e => {
   }
 });
 
-
 // calls renderSell() and passes in necessary variables
 function openSell(currency) {
   let value = document.getElementById(currency).querySelector("#value")
@@ -37,11 +36,16 @@ function openSell(currency) {
   //// does it matter that a user can "sell" 0 shares?
   document.querySelector("a#confirm-sell").addEventListener("click", e => {
     const id = portfolio.getHoldingIdForCurrency(currency);
-    const sharesToSell = parseFloat(document.querySelector("#buy-sell > div > article > div > div > input").value);
+    const sharesToSell = parseFloat(
+      document.querySelector("#buy-sell > div > article > div > div > input")
+        .value
+    );
     let newShares = currentShares - sharesToSell;
-    let amount = parseFloat(document
+    let amount = parseFloat(
+      document
         .querySelector("#buy-sell > div > article > h3 > strong")
-        .innerText.slice(1));
+        .innerText.slice(1)
+    );
     updateUserCash(amount, "sell");
     sellHoldingsFetch(id, newShares);
   });
@@ -55,7 +59,7 @@ function renderSell(currency, value, shares) {
   <div class="level-item has-text-centered">
    <article class="tile is-child notification is-info">
      <h2 class="title">Sell Shares</h2>
-     <p>${currency} @ <strong>$${value}</strong></p>
+     <p id="live-value">${currency} @ <strong>$${value}</strong></p>
      <div class="field">
      <div class="control">
        <input class="input is-medium" type="number" min="0" max="${shares}" placeholder="0">
@@ -89,7 +93,7 @@ function sellHoldingsFetch(id, newShares) {
     method = "PATCH";
     body = JSON.stringify({ shares: newShares });
     headers = { "Content-Type": "application/json" };
-  // deletes the holding if selling all shares
+    // deletes the holding if selling all shares
   } else {
     method = "DELETE";
   }

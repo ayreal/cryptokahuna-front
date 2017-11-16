@@ -15,11 +15,14 @@ function tickerListener() {
 // renders the buy form and listens for inputs and clicks
 function openBuy(currency, value) {
   // renders the buy form
+
+  // value targets the ticker element (.blink class) with its currency name and updates accordingly
+
   document.getElementById("buy-sell").innerHTML = `
   <div class="level-item has-text-centered">
    <article class="tile is-child notification is-info">
      <h2 class="title">Buy Shares</h2>
-     <p>${currency} @ <strong>$${value}</strong></p>
+     <p id="live-value">${currency} @ <strong>$${value}</strong></p>
      <div class="field">
      <div class="control">
        <input class="input is-medium" id="buy-shares" type="number" min="0" placeholder="0">
@@ -34,7 +37,8 @@ function openBuy(currency, value) {
   // adds an event listener to the shares input. OnChange it runs calcTotalBuys
   document.getElementById("buy-sell").addEventListener("input", e => {
     let amountShares = e.target.value; // number of shares entered
-    let total = calcTotalBuy(value, amountShares); // total cost (if affordable)
+    // console.log("currency is", currency);
+    let total = calcTotalBuy(value, amountShares, currency); // total cost (if affordable)
     let confirmBuyButton = document.getElementById("confirm-buy");
 
     // total is true if user can afford the transaction
@@ -43,6 +47,21 @@ function openBuy(currency, value) {
       : removeTotal(confirmBuyButton);
     e.stopPropagation(); // prevents duplicate event listeners
   });
+}
+
+function getLiveValue() {
+  let currency = document
+    .querySelector("#buy-sell > div > article > p")
+    .innerText.split("$")[0]
+    .slice(0, -3);
+
+  let value = [...document.getElementsByClassName("blink")].find(e => {
+    return e.parentElement.id === currency;
+  });
+
+  document.getElementById("live-value").innerHTML = `
+  ${currency} @ <strong>$${value.innerText}</strong>
+  `;
 }
 
 function displayTotal(confirmBuyButton, total) {
@@ -116,7 +135,7 @@ function buyHoldingsFetch(id, shares, currency) {
 
 function removeTotal(confirmBuyButton) {
   document.getElementById("total-buy").innerHTML = `
-
+    Total: <strong>$0</strong>
   `;
   confirmBuyButton.innerHTML = `
     INVALID FUNDS
@@ -124,9 +143,12 @@ function removeTotal(confirmBuyButton) {
 }
 
 // calculates purchase total and determines if user can afford the transaction
-function calcTotalBuy(value, amount) {
+function calcTotalBuy(value, amount, currency) {
   let cash = portfolio.cash;
-  value = parseFloat(value); // cost per share
+  value = [...document.getElementsByClassName("blink")].find(e => {
+    return e.parentElement.id === currency;
+  });
+  value = parseFloat(value.innerText); // cost per share
   amount = parseFloat(amount); // number of shares enetered
   let total = parseFloat(amount * value).toFixed(2); // total cost (value * amount)
   let remainingFunds = parseFloat(cash - total).toFixed(2); // remaining funds

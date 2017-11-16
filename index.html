@@ -32,10 +32,33 @@
 
   <!-- Begin Modal for Login -->
   <!-- To activate the modal, just add the is-active modifier on the .modal container -->
-  <div class="modal">
+  <div class="modal is-active">
     <div class="modal-background"></div>
     <div class="modal-content">
       <!-- content here -->
+
+
+
+      <nav class="level">
+        <div class="level-item has-text-centered">
+          <div class="box">
+            <h1 class="title is-1">Crypto Kahuna</h1>
+  <p>Please enter your encryped passphrase to proceed:</p>
+            <div class="field has-addons">
+              <div class="control">
+                <input class="input" size="35" type="text" placeholder="Enter Passphrase">
+              </div>
+              <div class="control">
+                <a class="button is-warning">
+            LOGIN
+          </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+
     </div>
     <button class="modal-close is-large"></button>
   </div>
@@ -96,7 +119,7 @@
               <p class="subtitle">BTC</p>
               <img src="img/BTC.svg" alt="Bitcoin">
               <h3>Current Share Price:</h3>
-              <p id="value"></p>
+              <p id="value" class="blink"></p>
               <a class="button is-medium is-primary buy" href="#buy-sell">BUY</a>
             </article>
           </div>
@@ -107,7 +130,7 @@
               <p class="subtitle">DASH</p>
               <img src="img/DASH.svg" alt="Dash">
               <h3>Current Share Price:</h3>
-              <p id="value"></p>
+              <p id="value" class="blink"></p>
               <a class="button is-medium is-primary buy" href="#buy-sell">BUY</a>
             </article>
           </div>
@@ -118,7 +141,7 @@
               <p class="subtitle">ETH</p>
               <img src="img/ETH.svg" alt="Ethereum">
               <h3>Current Share Price:</h3>
-              <p id="value"></p>
+              <p id="value" class="blink"></p>
               <a class="button is-medium is-primary buy" href="#buy-sell">BUY</a>
             </article>
           </div>
@@ -129,7 +152,7 @@
               <p class="subtitle">LTC</p>
               <img src="img/LTC.svg" alt="Litecoin">
               <h3>Current Share Price:</h3>
-              <p id="value"></p>
+              <p id="value" class="blink"></p>
               <a class="button is-medium is-primary buy" href="#buy-sell">BUY</a>
             </article>
           </div>
@@ -137,10 +160,10 @@
           <div class="tile is-parent">
             <article class="tile is-child is-light box" id="ZMR">
               <p class="title">Monero</p>
-              <p class="subtitle">XMR</p>
+              <p class="subtitle">ZMR</p>
               <img src="img/XMR.svg" alt="Monero">
               <h3>Current Share Price:</h3>
-              <p id="value"></p>
+              <p id="value" class="blink"></p>
               <a class="button is-medium is-primary buy" href="#buy-sell">BUY</a>
             </article>
           </div>
@@ -149,11 +172,9 @@
             <article class="tile is-child is-light box" id="ZEC">
               <p class="title">Zcash</p>
               <p class="subtitle">ZEC</p>
-
               <img src="img/ZEC-alt.svg" alt="Zcash">
-
               <h3>Current Share Price:</h3>
-              <p id="value"></p>
+              <p id="value" class="blink"></p>
               <a class="button is-medium is-primary buy" href="#buy-sell">BUY</a>
             </article>
           </div>
@@ -220,6 +241,7 @@
   <script src="src/portfolio.js"></script>
   <script src="src/share-sell.js"></script>
   <script src="src/share-buy.js"></script>
+  <script src="src/modal.js"></script>
 </body>
 
 </html>

@@ -22,7 +22,7 @@ function openBuy(currency, value) {
      <p>${currency} @ <strong>$${value}</strong></p>
      <div class="field">
      <div class="control">
-       <input class="input is-medium" id="buy-shares" type="number" placeholder="0">
+       <input class="input is-medium" id="buy-shares" type="number" min="0" placeholder="0">
      </div>
    </div>
    <h3 class="title" id="total-buy">Total: <strong>$0</strong></h3>

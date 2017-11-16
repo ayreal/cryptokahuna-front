@@ -8,7 +8,6 @@ document.getElementById("portfolio").addEventListener("click", e => {
 function openSell(currency) {
   let value = document.getElementById(currency).querySelector("#value")
     .innerText;
-  //calls on a global portfolio obj
   let currentShares = portfolio.getHoldingsForCurrency(currency);
   document.getElementById("buy-sell").innerHTML = renderSell(
     currency,
@@ -17,19 +16,28 @@ function openSell(currency) {
   );
 
   document.getElementById("buy-sell").addEventListener("input", e => {
-    // e.stopImmediatePropagation(); // prevents duplicate event listeners
     let sharesToSell = e.target.value;
-
-    if (sharesToSell <= currentShares) {
+    if (sharesToSell <= currentShares && sharesToSell > 0) {
       handleSellInput(currency, value, sharesToSell);
     } else {
-      console.log("no");
+      document.querySelector(
+        "#buy-sell > div > article > div > div > input"
+      ).value =
+        "";
     }
+  });
+
+  document.querySelector("a#confirm-sell").addEventListener("click", e => {
+    // submit a patch request
+    //  buyShares(shares, currency)
+    buyHoldingsFetch(id, sharesToSell, currency, "PATCH");
   });
 }
 
 function renderSell(currency, value, shares) {
   return `
+
+
   <div class="level-item has-text-centered">
    <article class="tile is-child notification is-info">
      <h2 class="title">Sell Shares</h2>
@@ -40,7 +48,7 @@ function renderSell(currency, value, shares) {
      </div>
    </div>
    <h3 class="title total-sale">Sale Value: <strong>$0</strong></h3>
-   <a class="button is-medium is-warning">CONFIRM SALE</a>
+   <a class="button is-medium is-warning" id="confirm-sell">CONFIRM SALE</a>
    </article>
   </div>
 

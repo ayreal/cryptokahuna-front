@@ -15,6 +15,7 @@ const liquidAssets = document.getElementById("liquid-assets");
 document.addEventListener("DOMContentLoaded", () => {
   refreshQuotes(); // refreshes quotes right away before first interval is hit
   fetchUser();
+  fetchUsers();
   // needs to delay
   fetchPortfolio();
   window.setInterval(pageRefresh, 10000); // polling timer default is 10000
@@ -42,6 +43,15 @@ function fetchUser() {
     .then(resp => resp.json())
     .then(json => {
       user = json;
+    });
+}
+
+function fetchUsers() {
+  const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
+  fetch(`${PATH}`)
+    .then(resp => resp.json())
+    .then(json => {
+      marquee(json);
     });
 }
 
@@ -116,6 +126,35 @@ function flashUpdates() {
   $(".blink")
     .fadeToggle(150)
     .fadeToggle(200);
+}
+
+// the ticker at the top of the page
+function marquee(data) {
+  const users = sortUsers(data); // this returns a sorted hash
+  const marqueeString = `<strong>Today's Kahunas</strong> ${renderUsersString(
+    users
+  )}`; // makes a string of text for the marquee
+  document.getElementById("marquee").innerHTML = marqueeString;
+  $("#marquee").marquee({ speed: 15 });
+}
+
+function sortUsers(data) {
+  data.sort((a, b) => {
+    if (a.cash > b.cash) return -1;
+    if (a.cash < b.cash) return 1;
+    return 0;
+  });
+  return data;
+}
+
+function renderUsersString(users) {
+  let text = "";
+  let count = 1;
+  users.forEach(user => {
+    text += `${count}) <strong>${user.name}:</strong> ${user.cash}   `;
+    count++;
+  });
+  return text;
 }
 
 function updateUserCash(amount, action) {

@@ -29,8 +29,8 @@ function openSell(currency) {
 
   document.querySelector("a#confirm-sell").addEventListener("click", e => {
     // submit a patch request
-    //  buyShares(shares, currency)
-    buyHoldingsFetch(id, sharesToSell, currency, "PATCH");
+    let id = portfolio.getHoldingIdForCurrency(currency);
+    // buyHoldingsFetch(id, sharesToSell, currency, "sell");
   });
 }
 

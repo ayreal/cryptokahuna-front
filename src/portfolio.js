@@ -79,6 +79,12 @@ class Portfolio {
     }
   }
 
+  getHoldingIdForCurrency(currency) {
+    return this.holdings.find(holding => {
+      return holding.currency === currency;
+    }).id;
+  }
+
   appendNewHolding(shares, currency) {
     let portfolio = document.getElementById("portfolio");
     let line = document.createElement("tr");

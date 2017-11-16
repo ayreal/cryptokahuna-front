@@ -100,9 +100,8 @@ function buyShares(shares, currency) {
   if (portfolio.getHoldingsForCurrency(currency)) {
     // checks to see if the portfolio already has this currency
     console.log("already have it");
-    const holdingId = portfolio.holdings.find(holding => {
-      return holding.currency === currency;
-    }).id;
+    const holdingId = portfolio.getHoldingIdForCurrency(currency);
+    debugger;
     buyHoldingsFetch(holdingId, shares, currency, "buy");
     // renderUpdgitaateHolding(shares, currency)
   } else {

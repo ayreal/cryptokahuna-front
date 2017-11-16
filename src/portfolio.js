@@ -120,4 +120,24 @@ class Portfolio {
 
       `;
   }
+
+  renderTransactionComplete() {
+    document.querySelector(
+      "#buy-sell > div > article > div > div > input"
+    ).value =
+      "";
+
+    document.getElementById("buy-sell").innerHTML = `
+    <div class="level-item has-text-centered" id="transaction-complete">
+     <article class="tile is-child notification is-success">
+       <h2 class="title">Transaction Complete</h2>
+
+     </article>
+    </div>
+    `;
+
+    $("#transaction-complete")
+      .delay(1080)
+      .fadeOut();
+  }
 }

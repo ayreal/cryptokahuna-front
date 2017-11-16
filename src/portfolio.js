@@ -22,7 +22,9 @@ class Portfolio {
   renderLiquidAssets() {
     liquidAssets.innerHTML = `
     <h2 class="subtitle">Current Liquid Assets</h2>
-    <h1 class="title is-1">$${portfolio.cash}</h1>
+    <h1 class="title is-1">$${portfolio.cash.toLocaleString("en-US", {
+      minimumFractionDigits: 2
+    })}</h1>
     `;
   }
 
@@ -30,7 +32,9 @@ class Portfolio {
   renderPortfolioValue(value) {
     portfolioValue.innerHTML = `
     <h2 class="subtitle">Current Portfolio Value</h2>
-    <h1 class="title is-1">$${value.toFixed(2)}</h1>
+    <h1 class="title is-1">$${value.toLocaleString("en-US", {
+      minimumFractionDigits: 2
+    })}</h1>
     `;
   }
 
@@ -75,7 +79,9 @@ class Portfolio {
     const currencyValue = document
       .getElementById(holding.currency)
       .querySelector("#value").innerText;
-    return (parseFloat(currencyValue) * parseFloat(holding.shares)).toFixed(2);
+
+    return (parseFloat(currencyValue) * parseFloat(holding.shares)
+    ).toLocaleString("en-US", { minimumFractionDigits: 2 });
   }
 
   getHoldingsForCurrency(currency) {

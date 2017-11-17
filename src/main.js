@@ -184,7 +184,7 @@ function renderUsersString(users) {
     let cash = user.cash;
     cash = cash.toLocaleString("en-US", { minimumFractionDigits: 2 });
     text += `${count}) <strong>${user.name}:</strong> $${cash}`;
-    if (cash[0] === "-") {
+    if (user.cash <= "10000") {
       text += `<span style="color:#d75453;"> ⬇ </span>`;
     } else {
       text += `<span style="color:#94c353;"> ⬆ </span>`;

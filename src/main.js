@@ -13,6 +13,7 @@ const portfolioValue = document.getElementById("portfolio-value");
 const liquidAssets = document.getElementById("liquid-assets");
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("hello test")
   console.log(TEST);
   refreshQuotes(); // refreshes quotes right away before first interval is hit
   // fetchUser(); //// MIGHT NEED TO COMMENT THIS OUT

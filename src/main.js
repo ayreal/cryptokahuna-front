@@ -18,12 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderMobileRedirect();
   }
   refreshQuotes(); // refreshes quotes right away before first interval is hit
-<<<<<<< HEAD
   // fetchUser(); //// MIGHT NEED TO COMMENT THIS OUT
-=======
-  fetchUser(); //// MIGHT NEED TO COMMENT THIS OUT
-  fetchUsers();
->>>>>>> origin/fix-mobile-and-marquee-ah
   fetchUsersForMarquee();
   // needs to delay
   // fetchPortfolio();

@@ -48,6 +48,7 @@ function openSell(currency) {
     );
     updateUserCash(amount, "sell");
     sellHoldingsFetch(id, newShares);
+    portfolio.renderTransactionComplete();
   });
 }
 

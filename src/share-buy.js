@@ -25,7 +25,7 @@ function openBuy(currency, value) {
      <p id="live-value">${currency} @ <strong>$${value}</strong></p>
      <div class="field">
      <div class="control">
-       <input class="input is-medium" id="buy-shares" type="number" min="0" placeholder="0">
+       <input class="input is-medium" id="shares-input" type="number" min="0" placeholder="0">
      </div>
    </div>
    <h3 class="title" id="total-buy">Total: <strong>$0</strong></h3>
@@ -77,7 +77,7 @@ function displayTotal(confirmBuyButton, total) {
     ); // stores total purchase cost
     e.stopImmediatePropagation(); // prevents duplicate event listeners
     let buttonText = document.querySelector("a#confirm-buy").innerText;
-    const shareNum = document.querySelector("#buy-shares").value;
+    const shareNum = document.querySelector("#shares-input").value;
     const currency = document
       .querySelector("#buy-sell > div > article > p")
       .innerText.split("$")[0]
@@ -91,7 +91,9 @@ function displayTotal(confirmBuyButton, total) {
 function completePurchase(total, shares, currency) {
   updateUserCash(total, "buy"); // subtract total from user cash (fetch post to user)
   buyShares(shares, currency); // add the purchase to the portfolio's holdings (fetch post to holdings)
+
   // replace buy box with "purchase complete"
+  portfolio.renderTransactionComplete();
 }
 
 function buyShares(shares, currency) {
@@ -99,7 +101,6 @@ function buyShares(shares, currency) {
     // checks to see if the portfolio already has this currency
     const holdingId = portfolio.getHoldingIdForCurrency(currency);
     buyHoldingsFetch(holdingId, shares, currency);
-    // renderUpdgitaateHolding(shares, currency)
   } else {
     buyHoldingsFetch(0, shares, currency);
   }

@@ -1,3 +1,5 @@
+// source: http://jsfiddle.net/FWWEn/
+
 (function($) {
   $.fn.textWidth = function() {
     var calc = '<span style="display:none">' + $(this).text() + "</span>";

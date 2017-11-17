@@ -97,10 +97,11 @@ function sellHoldingsFetch(id, newShares) {
   if (newShares > 0) {
     method = "PATCH";
     body = JSON.stringify({ shares: newShares });
-    headers = { "Content-Type": "application/json" };
+    headers = { "Content-Type": "application/json", Authorization: dcash };
     // deletes the holding if selling all shares
   } else {
     method = "DELETE";
+    headers = { Authorization: dcash };
   }
   fetch(url, {
     method: method,

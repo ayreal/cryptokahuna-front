@@ -129,7 +129,8 @@ function buyHoldingsFetch(id, shares, currency) {
     method: method,
     body: JSON.stringify(postData),
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      Authorization: dcash
     }
   }).then(res => fetchPortfolio());
 }

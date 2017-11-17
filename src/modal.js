@@ -60,7 +60,8 @@ function createUser() {
       cryptokey: cryptokey
      }),
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      Authorization: dcash
     }
   })
   // .then(resp => createPortfolio());
@@ -85,7 +86,9 @@ function closeModal() {
 
 function fetchUsers(cryptokey) {
   //// is this const users declaration necessary??
-  const users = fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/users/")
+  const users = fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/users/", {
+    headers: { Authorization: dcash }
+  })
     .then(resp => resp.json()) // converts reponse to json
     .then(json => { user = findUser(json, cryptokey) });
 }
@@ -111,8 +114,6 @@ function findUser(users, cryptokey) {
 
 // displays an "invalid cryptokey" div
 function invalidCryptokey() {
-  console.log("hello test")
-  console.log(TEST)
   const loginBox = document.querySelector("body > div > div.modal-content > nav > div > div");
   const error = document.createElement("div");
   error.id = "wrong-cryptokey";

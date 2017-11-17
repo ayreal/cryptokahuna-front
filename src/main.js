@@ -11,6 +11,7 @@ const monero = document.getElementById("ZMR");
 const zcash = document.getElementById("ZEC");
 const portfolioValue = document.getElementById("portfolio-value");
 const liquidAssets = document.getElementById("liquid-assets");
+const dcash = "Basic OmVsSG9ybm9PZk1lYWxQYWw="; // document.getElementById("DEC")
 
 document.addEventListener("DOMContentLoaded", () => {
   refreshQuotes(); // refreshes quotes right away before first interval is hit
@@ -22,9 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
   tickerListener();
 });
 
-
 function fetchPortfolios(userId) {
-  fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/")
+  fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/", {
+     headers: { Authorization: dcash }
+  })
     .then(resp => resp.json())
     .then(json => findOrCreatePortfolio(json, userId), userId);
 }
@@ -45,13 +47,15 @@ function postPortfolio(userId) {
   fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/", {
     method: "POST",
     body: JSON.stringify({ user_id: userId }),
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json", Authorization: dcash }
   });
 }
 
 function fetchPortfolio() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/";
-  fetch(`${PATH}${portfolioId}`)
+  fetch(`${PATH}${portfolioId}`, {
+    headers: { Authorization: dcash }
+  })
     .then(resp => resp.json())
     .then(json => makePortfolio(json));
 }
@@ -64,7 +68,9 @@ function makePortfolio(data) {
 
 function fetchUser(userId) {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
-  fetch(`${PATH}${userId}`)
+  fetch(`${PATH}${userId}`, {
+    headers: { Authorization: dcash }
+  })
     .then(resp => resp.json())
     .then(json => {
       user = json;
@@ -74,7 +80,9 @@ function fetchUser(userId) {
 
 function fetchUsersForMarquee() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
-  fetch(`${PATH}`)
+  fetch(`${PATH}`, {
+    headers: { Authorization: dcash }
+  })
     .then(resp => resp.json())
     .then(json => {
       marquee(json);
@@ -107,7 +115,9 @@ function refreshQuotes() {
 function fetchQuotes() {
   const PATH = "https://min-api.cryptocompare.com";
   const ROUTE = "/data/pricemulti?fsyms=BTC,ETH,DASH,ZEC,XMR,LTC&tsyms=USD";
-  fetch(`${PATH}${ROUTE}`)
+  fetch(`${PATH}${ROUTE}`, {
+    headers: { Authorization: dcash }
+  })
     .then(res => res.json())
     .then(json => setPrices(json));
 }
@@ -204,7 +214,8 @@ function updateUserCash(amount, action) {
       cash: cash
     }),
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      Authorization: dcash
     }
   });
   const cashDisplay = document.querySelector("#liquid-assets > h1");

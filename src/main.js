@@ -158,6 +158,7 @@ function flashUpdates() {
 
 // the ticker at the top of the page
 function marquee(data) {
+  debugger;
   const users = sortUsers(data); // this returns a sorted hash
   const marqueeString = `<strong>Today's Kahunas</strong> ${renderUsersString(
     users
@@ -236,6 +237,5 @@ function mobileCheck() {
 }
 
 function renderMobileRedirect() {
-  window.setTimeout('window.open("mobile-redirect.html","newsite")',1000);
-  `;
+  window.setTimeout('window.open("mobile-redirect.html","newsite")', 1000);
 }

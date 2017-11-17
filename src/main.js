@@ -14,7 +14,7 @@ const liquidAssets = document.getElementById("liquid-assets");
 
 document.addEventListener("DOMContentLoaded", () => {
   if (window.mobileCheck()) {
-    mobileMessage();
+    renderMobileRedirect();
   }
   refreshQuotes(); // refreshes quotes right away before first interval is hit
   fetchUser(); //// MIGHT NEED TO COMMENT THIS OUT
@@ -235,8 +235,7 @@ function mobileCheck() {
   return check;
 }
 
-function renderMobileMessage() {
-  document.getElementsByTagName("body")[0].innerHTML = `
-  view on desktop
+function renderMobileRedirect() {
+  window.setTimeout('window.open("http:/google.com","newsite")',1000);
   `;
 }

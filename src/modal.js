@@ -111,6 +111,8 @@ function findUser(users, cryptokey) {
 
 // displays an "invalid cryptokey" div
 function invalidCryptokey() {
+  console.log("hello test")
+  console.log(TEST)
   const loginBox = document.querySelector("body > div > div.modal-content > nav > div > div");
   const error = document.createElement("div");
   error.id = "wrong-cryptokey";

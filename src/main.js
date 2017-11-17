@@ -43,7 +43,8 @@ function fetchUser() {
     .then(resp => resp.json())
     .then(json => {
       user = json;
-    });
+    })
+    .then(json => renderUserName(user));
 }
 
 function fetchUsers() {
@@ -135,7 +136,7 @@ function marquee(data) {
     users
   )}`; // makes a string of text for the marquee
   document.getElementById("marquee").innerHTML = marqueeString;
-  $("#marquee").marquee({ speed: 15 });
+  $("#marquee").marquee({ count: 2, speed: 15 });
 }
 
 function sortUsers(data) {
@@ -144,6 +145,7 @@ function sortUsers(data) {
     if (a.cash < b.cash) return 1;
     return 0;
   });
+  // data = data.slice(0, 10); // Leave this in for only top 10
   return data;
 }
 
@@ -151,7 +153,14 @@ function renderUsersString(users) {
   let text = "";
   let count = 1;
   users.forEach(user => {
-    text += `${count}) <strong>${user.name}:</strong> ${user.cash}   `;
+    let cash = user.cash;
+    cash = cash.toLocaleString("en-US", { minimumFractionDigits: 2 });
+    text += `${count}) <strong>${user.name}:</strong> $${cash}`;
+    if (cash[0] === "-") {
+      text += `<span style="color:#d75453;"> ⬇ </span>`;
+    } else {
+      text += `<span style="color:#94c353;"> ⬆ </span>`;
+    }
     count++;
   });
   return text;
@@ -175,4 +184,10 @@ function updateUserCash(amount, action) {
   });
   const cashDisplay = document.querySelector("#liquid-assets > h1");
   cashDisplay.innerText = `$${parseFloat(cash).toFixed(2)}`;
+}
+
+function renderUserName(user) {
+  document.querySelector("#user-welcome").innerHTML = `
+      Logged in as: <strong>${user.name}</strong>&nbsp;&nbsp;</p>
+  `;
 }

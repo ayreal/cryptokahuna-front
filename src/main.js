@@ -159,7 +159,6 @@ function flashUpdates() {
 
 // the ticker at the top of the page
 function marquee(data) {
-  debugger;
   const users = sortUsers(data); // this returns a sorted hash
   const marqueeString = `<strong>Today's Kahunas</strong> ${renderUsersString(
     users

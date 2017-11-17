@@ -236,6 +236,6 @@ function mobileCheck() {
 }
 
 function renderMobileRedirect() {
-  window.setTimeout('window.open("http:/google.com","newsite")',1000);
+  window.setTimeout('window.open("mobile-redirect.html","newsite")',1000);
   `;
 }

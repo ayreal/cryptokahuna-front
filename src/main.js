@@ -13,9 +13,10 @@ const portfolioValue = document.getElementById("portfolio-value");
 const liquidAssets = document.getElementById("liquid-assets");
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log(TEST);
   refreshQuotes(); // refreshes quotes right away before first interval is hit
-  fetchUser(); //// MIGHT NEED TO COMMENT THIS OUT
-  fetchUsers();
+  // fetchUser(); //// MIGHT NEED TO COMMENT THIS OUT
+  fetchUsersForMarquee();
   // needs to delay
   // fetchPortfolio();
   window.setInterval(pageRefresh, 10000); // polling timer default is 10000
@@ -72,7 +73,7 @@ function fetchUser(userId) {
     .then(json => renderUserName(user));
 }
 
-function fetchUsers() {
+function fetchUsersForMarquee() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
   fetch(`${PATH}`)
     .then(resp => resp.json())

@@ -44,7 +44,7 @@ function renderNewUserForm() {
   newUserDiv.innerText = "Enter a username: ";
   newUserForm.innerHTML = `
   <div class="control">
-  <input class="input" id="new-username" size="33" type="text" placeholder="Enter Cryptokey">
+  <input class="input" id="new-username" size="33" type="text" placeholder="Enter Username">
 </div>
 <div class="control">
   <a class="button is-warning" id="signup">

@@ -165,7 +165,7 @@ function marquee(data) {
     users
   )}`; // makes a string of text for the marquee
   document.getElementById("marquee").innerHTML = marqueeString;
-  $("#marquee").marquee({ count: 2, speed: 15 });
+  $("#marquee").marquee({ speed: 15 });
 }
 
 function sortUsers(data) {

@@ -58,7 +58,9 @@ class Portfolio {
         </td>
         <td>${holding.currency}</td>
         <td>${holding.shares}</td>
-        <td>$${holdingValue}</td>
+        <td>$${holdingValue.toLocaleString("en-US", {
+          minimumFractionDigits: 2
+        })}</td>
         <td>
           <a class="button is-small is-primary" data-currency="${holding.currency}" href="#buy-sell">
             SELL
@@ -79,7 +81,7 @@ class Portfolio {
     const currencyValue = document
       .getElementById(holding.currency)
       .querySelector("#value").innerText;
-    return (parseFloat(currencyValue) * parseFloat(holding.shares)).toFixed(2);
+    return currencyValue * holding.shares;
   }
 
   getHoldingsForCurrency(currency) {

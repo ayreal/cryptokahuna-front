@@ -14,8 +14,16 @@ const liquidAssets = document.getElementById("liquid-assets");
 const dcash = "Basic OmVsSG9ybm9PZk1lYWxQYWw="; // document.getElementById("DEC")
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (window.mobileCheck()) {
+    renderMobileRedirect();
+  }
   refreshQuotes(); // refreshes quotes right away before first interval is hit
+<<<<<<< HEAD
   // fetchUser(); //// MIGHT NEED TO COMMENT THIS OUT
+=======
+  fetchUser(); //// MIGHT NEED TO COMMENT THIS OUT
+  fetchUsers();
+>>>>>>> origin/fix-mobile-and-marquee-ah
   fetchUsersForMarquee();
   // needs to delay
   // fetchPortfolio();
@@ -171,7 +179,11 @@ function marquee(data) {
     users
   )}`; // makes a string of text for the marquee
   document.getElementById("marquee").innerHTML = marqueeString;
-  $("#marquee").marquee({ count: 2, speed: 15 });
+  $("#marquee")
+    .marquee({ count: 2, speed: 15 })
+    .done(function() {
+      $("#marquee").css("display", "#none");
+    });
 }
 
 function sortUsers(data) {
@@ -191,7 +203,7 @@ function renderUsersString(users) {
     let cash = user.cash;
     cash = cash.toLocaleString("en-US", { minimumFractionDigits: 2 });
     text += `${count}) <strong>${user.name}:</strong> $${cash}`;
-    if (cash[0] === "-") {
+    if (user.cash <= "10000") {
       text += `<span style="color:#d75453;"> ⬇ </span>`;
     } else {
       text += `<span style="color:#94c353;"> ⬆ </span>`;
@@ -225,5 +237,39 @@ function updateUserCash(amount, action) {
 function renderUserName(user) {
   document.querySelector("#user-welcome").innerHTML = `
       Logged in as: <strong>${user.name}</strong>&nbsp;&nbsp;</p>
+  `;
+}
+
+function mobileCheck() {
+  let check = false;
+  testExp = new RegExp(
+    "Android|webOS|iPhone|iPad|" +
+      "BlackBerry|Windows Phone|" +
+      "Opera Mini|IEMobile|Mobile",
+    "i"
+  );
+
+  if (testExp.test(navigator.userAgent)) {
+    check = true;
+  }
+
+  return check;
+}
+
+function renderMobileRedirect() {
+  document.getElementsByTagName("body")[0].innerHTML = `
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        <strong>Crypto Kahuna</strong> is not yet available for mobile.
+      </h1>
+      <p class="subtitle">
+        Please visit this website on your desktop</h2>
+        <p>or check out our project on <i class="fa fa-github-alt" aria-hidden="true"></i> <a href="https://github.com/ayreal/cryptokahuna-front" target="_blank">Github</a>.</p>
+
+      </p>
+    </div>
+  </section>
+
   `;
 }

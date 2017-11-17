@@ -15,8 +15,6 @@ function newUser() {
   if (!document.getElementById("new-user-input")) {
     renderNewUserForm();
   }
-  // create a new User (post to api)
-  // display their cryptokey and tell them not to lose it
 }
 
 //// refactor this with .innerHTML?
@@ -50,7 +48,8 @@ function createUser() {
     headers: {
       "Content-Type": "application/json"
     }
-  }).then(resp => console.log(resp));
+  })
+  // .then(resp => createPortfolio());
 
   displayCryptokey(username, cryptokey);
 }
@@ -71,6 +70,7 @@ function closeModal() {
 }
 
 function fetchUsers(cryptokey) {
+  //// is this const users declaration necessary??
   const users = fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/users/")
     .then(resp => resp.json()) // converts reponse to json
     .then(json => { user = findUser(json, cryptokey) });
@@ -85,6 +85,7 @@ function findUser(users, cryptokey) {
     userId = user.id;
     closeModal()
     fetchUser(user.id);
+    fetchPortfolios(userId);
     console.log("user is " + user.name);
   // else, give an error and clear the text field
   } else {

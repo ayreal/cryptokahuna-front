@@ -1,6 +1,6 @@
 let user;
 let portfolio;
-let portfolioId = 1; //// make this dependent on the user
+let portfolioId;
 const ticker = document.getElementById("ticker");
 const bitcoin = document.getElementById("BTC");
 const dash = document.getElementById("DASH");
@@ -20,7 +20,33 @@ document.addEventListener("DOMContentLoaded", () => {
   tickerListener();
 });
 
-// fetches portfolio data from backend api
+
+function fetchPortfolios(userId) {
+  fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/")
+    .then(resp => resp.json())
+    .then(json => findOrCreatePortfolio(json, userId), userId);
+}
+
+function findOrCreatePortfolio(portfolios, userId) {
+  const userPortfolio = portfolios.find(function(portfolio) {
+    return portfolio.user_id === userId;
+  }, userId);
+  if (userPortfolio) {
+    portfolioId = userPortfolio.id;
+  } else {
+    postPortfolio(userId);
+  }
+  fetchPortfolio(userId);
+}
+
+function postPortfolio(userId) {
+  fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/", {
+    method: "POST",
+    body: JSON.stringify({ user_id: userId }),
+    headers: { "Content-Type": "application/json" }
+  });
+}
+
 function fetchPortfolio() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/";
   fetch(`${PATH}${portfolioId}`)
@@ -30,7 +56,6 @@ function fetchPortfolio() {
 
 function makePortfolio(data) {
   portfolio = new Portfolio(data);
-  // make this find or create by
   portfolio.renderLiquidAssets();
   portfolio.renderPortfolioDiv();
 }
@@ -41,7 +66,7 @@ function fetchUser(userId) {
     .then(resp => resp.json())
     .then(json => {
       user = json;
-    });
+  });
 }
 
 function pageRefresh() {

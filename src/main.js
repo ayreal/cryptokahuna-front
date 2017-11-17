@@ -51,7 +51,7 @@ function postPortfolio(userId) {
     method: "POST",
     body: JSON.stringify({ user_id: userId }),
     headers: { "Content-Type": "application/json", Authorization: dcash }
-  });
+  }).then(fetchPortfolios(userId));
 }
 
 function fetchPortfolio() {

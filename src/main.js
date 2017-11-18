@@ -13,7 +13,7 @@ const portfolioValue = document.getElementById("portfolio-value");
 const liquidAssets = document.getElementById("liquid-assets");
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (window.mobileCheck()) {
+  if (window.isMobileDevice()) {
     renderMobileRedirect();
   }
   refreshQuotes(); // refreshes quotes right away before first interval is hit
@@ -224,20 +224,11 @@ function renderUserName(user) {
   `;
 }
 
-function mobileCheck() {
-  let check = false;
-  testExp = new RegExp(
-    "Android|webOS|iPhone|iPad|" +
-      "BlackBerry|Windows Phone|" +
-      "Opera Mini|IEMobile|Mobile",
-    "i"
+function isMobileDevice() {
+  return (
+    typeof window.orientation !== "undefined" ||
+    navigator.userAgent.indexOf("IEMobile") !== -1
   );
-
-  if (testExp.test(navigator.userAgent)) {
-    check = true;
-  }
-
-  return check;
 }
 
 function renderMobileRedirect() {

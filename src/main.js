@@ -14,7 +14,7 @@ const liquidAssets = document.getElementById("liquid-assets");
 const dcash = "Basic OmVsSG9ybm9PZk1lYWxQYWw="; // document.getElementById("DEC")
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (window.mobileCheck()) {
+  if (window.isMobile()) {
     renderMobileRedirect();
   }
   refreshQuotes(); // refreshes quotes right away before first interval is hit
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function fetchPortfolios(userId) {
   fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/", {
-     headers: { Authorization: dcash }
+    headers: { Authorization: dcash }
   })
     .then(resp => resp.json())
     .then(json => findOrCreatePortfolio(json, userId), userId);
@@ -175,7 +175,7 @@ function marquee(data) {
   $("#marquee")
     .marquee({ count: 2, speed: 15 })
     .done(function() {
-      $("#marquee").css("display", "#none");
+      $("#marquee").css("display", "none");
     });
 }
 
@@ -233,20 +233,11 @@ function renderUserName(user) {
   `;
 }
 
-function mobileCheck() {
-  let check = false;
-  testExp = new RegExp(
-    "Android|webOS|iPhone|iPad|" +
-      "BlackBerry|Windows Phone|" +
-      "Opera Mini|IEMobile|Mobile",
-    "i"
+function isMobile() {
+  return (
+    typeof window.orientation !== "undefined" ||
+    navigator.userAgent.indexOf("IEMobile") !== -1
   );
-
-  if (testExp.test(navigator.userAgent)) {
-    check = true;
-  }
-
-  return check;
 }
 
 function renderMobileRedirect() {

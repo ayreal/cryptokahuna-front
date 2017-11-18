@@ -11,14 +11,14 @@ const monero = document.getElementById("ZMR");
 const zcash = document.getElementById("ZEC");
 const portfolioValue = document.getElementById("portfolio-value");
 const liquidAssets = document.getElementById("liquid-assets");
-const dcash = "Basic OmVsSG9ybm9PZk1lYWxQYWw="; // document.getElementById("DEC")
 
 document.addEventListener("DOMContentLoaded", () => {
   if (window.mobileCheck()) {
     renderMobileRedirect();
   }
   refreshQuotes(); // refreshes quotes right away before first interval is hit
-  // fetchUser(); //// MIGHT NEED TO COMMENT THIS OUT
+  fetchUser(); //// MIGHT NEED TO COMMENT THIS OUT
+  fetchUsers();
   fetchUsersForMarquee();
   // needs to delay
   // fetchPortfolio();
@@ -27,9 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function fetchPortfolios(userId) {
-  fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/", {
-     headers: { Authorization: dcash }
-  })
+  fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/")
     .then(resp => resp.json())
     .then(json => findOrCreatePortfolio(json, userId), userId);
 }
@@ -50,15 +48,13 @@ function postPortfolio(userId) {
   fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/", {
     method: "POST",
     body: JSON.stringify({ user_id: userId }),
-    headers: { "Content-Type": "application/json", Authorization: dcash }
+    headers: { "Content-Type": "application/json" }
   });
 }
 
 function fetchPortfolio() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/";
-  fetch(`${PATH}${portfolioId}`, {
-    headers: { Authorization: dcash }
-  })
+  fetch(`${PATH}${portfolioId}`)
     .then(resp => resp.json())
     .then(json => makePortfolio(json));
 }
@@ -71,9 +67,7 @@ function makePortfolio(data) {
 
 function fetchUser(userId) {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
-  fetch(`${PATH}${userId}`, {
-    headers: { Authorization: dcash }
-  })
+  fetch(`${PATH}${userId}`)
     .then(resp => resp.json())
     .then(json => {
       user = json;
@@ -83,9 +77,7 @@ function fetchUser(userId) {
 
 function fetchUsersForMarquee() {
   const PATH = "https://crypto-kahuna-api.herokuapp.com/api/v1/users/";
-  fetch(`${PATH}`, {
-    headers: { Authorization: dcash }
-  })
+  fetch(`${PATH}`)
     .then(resp => resp.json())
     .then(json => {
       marquee(json);
@@ -175,7 +167,7 @@ function marquee(data) {
   $("#marquee")
     .marquee({ count: 2, speed: 15 })
     .done(function() {
-      $("#marquee").css("display", "#none");
+      $("#marquee").css("display", "none");
     });
 }
 
@@ -219,8 +211,7 @@ function updateUserCash(amount, action) {
       cash: cash
     }),
     headers: {
-      "Content-Type": "application/json",
-      Authorization: dcash
+      "Content-Type": "application/json"
     }
   });
   const cashDisplay = document.querySelector("#liquid-assets > h1");

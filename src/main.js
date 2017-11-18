@@ -48,8 +48,8 @@ function postPortfolio(userId) {
   fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/portfolios/", {
     method: "POST",
     body: JSON.stringify({ user_id: userId }),
-    headers: { "Content-Type": "application/json" }
-  });
+    headers: { "Content-Type": "application/json", Authorization: dcash }
+  }).then(fetchPortfolios(userId));
 }
 
 function fetchPortfolio() {

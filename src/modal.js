@@ -22,7 +22,6 @@ modal.addEventListener("click", e => {
 
 logout.addEventListener("click", e => {
   // reset global user
-  // let user = {};
   openModal();
 });
 function newUser() {
@@ -32,7 +31,6 @@ function newUser() {
   }
 }
 
-//// refactor this with .innerHTML?
 function renderNewUserForm() {
   const loginBox = document.querySelector(
     "body > div > div.modal-content > nav > div > div"
@@ -80,7 +78,6 @@ function createUser() {
       Authorization: dcash
     }
   });
-  // .then(resp => createPortfolio());
 
   displayCryptokey(username, cryptokey);
 }
@@ -103,7 +100,6 @@ function closeModal() {
 }
 
 function fetchUsers(cryptokey) {
-  //// is this const users declaration necessary??
   const users = fetch("https://crypto-kahuna-api.herokuapp.com/api/v1/users/", {
     headers: { Authorization: dcash }
   })
@@ -114,7 +110,7 @@ function fetchUsers(cryptokey) {
 }
 
 function findUser(users, cryptokey) {
-  const user = users.find(function(user) {
+  const user = users.find(function (user) {
     return user.cryptokey === cryptokey;
   }, cryptokey);
   // if user exists, sets them as userId and close the modal

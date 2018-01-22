@@ -11,17 +11,14 @@ const monero = document.getElementById("ZMR");
 const zcash = document.getElementById("ZEC");
 const portfolioValue = document.getElementById("portfolio-value");
 const liquidAssets = document.getElementById("liquid-assets");
-const dcash = "Basic OmVsSG9ybm9PZk1lYWxQYWw="; // document.getElementById("DEC")
+const dcash = "Basic OmVsSG9ybm9PZk1lYWxQYWw=";
 
 document.addEventListener("DOMContentLoaded", () => {
   if (window.isMobile()) {
     renderMobileRedirect();
   }
   refreshQuotes(); // refreshes quotes right away before first interval is hit
-  // fetchUser(); //// MIGHT NEED TO COMMENT THIS OUT
   fetchUsersForMarquee();
-  // needs to delay
-  // fetchPortfolio();
   window.setInterval(pageRefresh, 10000); // polling timer default is 10000
   tickerListener();
 });
@@ -35,7 +32,7 @@ function fetchPortfolios(userId) {
 }
 
 function findOrCreatePortfolio(portfolios, userId) {
-  const userPortfolio = portfolios.find(function(portfolio) {
+  const userPortfolio = portfolios.find(function (portfolio) {
     return portfolio.user_id === userId;
   }, userId);
   if (userPortfolio) {
@@ -94,7 +91,6 @@ function fetchUsersForMarquee() {
 
 function pageRefresh() {
   refreshQuotes();
-  // setTimeout(portfolio.renderPortfolioDiv(), 300);
   portfolio.renderPortfolioDiv();
 }
 
@@ -133,7 +129,6 @@ function setPrices(data) {
   let valueXMR = parseFloat(data.XMR.USD).toFixed(2);
   let valueZEC = parseFloat(data.ZEC.USD).toFixed(2);
 
-  //// can we refactor these into one function?
   bitcoin.querySelector("#value").innerHTML = `
     <strong>${valueBTC}</strong>
   `;
@@ -174,7 +169,7 @@ function marquee(data) {
   document.getElementById("marquee").innerHTML = marqueeString;
   $("#marquee")
     .marquee({ count: 2, speed: 15 })
-    .done(function() {
+    .done(function () {
       $("#marquee").css("display", "none");
     });
 }
@@ -185,7 +180,6 @@ function sortUsers(data) {
     if (a.cash < b.cash) return 1;
     return 0;
   });
-  // data = data.slice(0, 10); // Leave this in for only top 10
   return data;
 }
 

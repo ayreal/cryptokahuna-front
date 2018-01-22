@@ -37,7 +37,6 @@ function openBuy(currency, value) {
   // adds an event listener to the shares input. OnChange it runs calcTotalBuys
   document.getElementById("buy-sell").addEventListener("input", e => {
     let amountShares = e.target.value; // number of shares entered
-    // console.log("currency is", currency);
     let total = calcTotalBuy(value, amountShares, currency); // total cost (if affordable)
     let confirmBuyButton = document.getElementById("confirm-buy");
 
@@ -92,7 +91,7 @@ function completePurchase(total, shares, currency) {
   updateUserCash(total, "buy"); // subtract total from user cash (fetch post to user)
   buyShares(shares, currency); // add the purchase to the portfolio's holdings (fetch post to holdings)
 
-  // replace buy box with "purchase complete"
+  // replaces buy box with "purchase complete"
   portfolio.renderTransactionComplete();
 }
 

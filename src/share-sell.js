@@ -18,7 +18,6 @@ function openSell(currency) {
   );
 
   // adds listener to the sell widget
-  //// refactor this out of openSell()
   document.getElementById("buy-sell").addEventListener("input", e => {
     let sharesToSell = e.target.value;
     // checks if user entered a valid number of shares
@@ -33,7 +32,6 @@ function openSell(currency) {
   });
 
   // adds listener to CONFIRM SALE button and processes transaction
-  //// does it matter that a user can "sell" 0 shares?
   document.querySelector("a#confirm-sell").addEventListener("click", e => {
     const id = portfolio.getHoldingIdForCurrency(currency);
     const sharesToSell = parseFloat(

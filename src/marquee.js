@@ -1,7 +1,5 @@
-// source: http://jsfiddle.net/FWWEn/
-
-(function($) {
-  $.fn.textWidth = function() {
+(function ($) {
+  $.fn.textWidth = function () {
     var calc = '<span style="display:none">' + $(this).text() + "</span>";
     $("body").append(calc);
     var width = $("body")
@@ -13,7 +11,7 @@
     return width;
   };
 
-  $.fn.marquee = function(args) {
+  $.fn.marquee = function (args) {
     var that = $(this);
     var textWidth = that.textWidth(),
       offset = that.width(),

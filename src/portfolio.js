@@ -12,7 +12,6 @@ class Portfolio {
   }
 
   // updates cash display
-
   sortHoldings(a, b) {
     if (a.currency < b.currency) return -1;
     if (a.currency > b.currency) return 1;
@@ -23,8 +22,8 @@ class Portfolio {
     liquidAssets.innerHTML = `
     <h2 class="subtitle">Current Liquid Assets</h2>
     <h1 class="title is-1">$${portfolio.cash.toLocaleString("en-US", {
-      minimumFractionDigits: 2
-    })}</h1>
+        minimumFractionDigits: 2
+      })}</h1>
     `;
   }
 
@@ -33,8 +32,8 @@ class Portfolio {
     portfolioValue.innerHTML = `
     <h2 class="subtitle">Current Portfolio Value</h2>
     <h1 class="title is-1">$${value.toLocaleString("en-US", {
-      minimumFractionDigits: 2
-    })}</h1>
+        minimumFractionDigits: 2
+      })}</h1>
     `;
   }
 
@@ -49,7 +48,7 @@ class Portfolio {
     let body = "";
     let total = 0;
     this.holdings.forEach(
-      function(holding) {
+      function (holding) {
         const holdingValue = this.calcHoldingValue(holding);
         let line = `
       <tr id="holding-${holding.currency}">
@@ -59,8 +58,8 @@ class Portfolio {
         <td>${holding.currency}</td>
         <td>${holding.shares}</td>
         <td>$${holdingValue.toLocaleString("en-US", {
-          minimumFractionDigits: 2
-        })}</td>
+            minimumFractionDigits: 2
+          })}</td>
         <td>
           <a class="button is-small is-primary" data-currency="${holding.currency}" href="#buy-sell">
             SELL
